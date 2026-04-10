@@ -2,8 +2,15 @@
 
 import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useUser } from "@/contexts/UserAuthContext";
 import { siteConfig } from "@/lib/siteMode";
+
+const serviceCards = [
+  { title: "연구 설계 상담", desc: "연구 주제 설계, 방법론 안내", href: "/data-generation", image: "/images/서비스_연구설계지원.png" },
+  { title: "통계분석 설계", desc: "분석 방법 선정 및 설계 지원", href: "/stats-design", image: "/images/서비스_계량통계분석.png" },
+  { title: "설문구성 / 조사설계", desc: "설문 구성 및 조사 설계 안내", href: "/survey-request", image: "/images/서비스_설문조사.png" },
+];
 
 interface StatusBreakdown {
   total: number;
@@ -106,13 +113,24 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* 서비스 바로가기 */}
+        {/* 서비스 카드 — 이미지 포함 */}
         <div className="mb-8 sm:mb-10">
           <h2 className="text-base font-bold text-gray-900 mb-4">상담 서비스</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <ServiceLink href="/data-generation" title="연구설계" desc="연구 주제, 방법론 상담" icon="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-            <ServiceLink href="/stats-design" title="통계분석" desc="통계 방법, 도구 설계" icon="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-            <ServiceLink href="/survey-request" title="설문구성" desc="설문 구성, 조사 설계" icon="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-5">
+            {serviceCards.map((card) => (
+              <Link key={card.title} href={card.href} className="group block">
+                <div className="rounded-2xl border border-gray-100 bg-white overflow-hidden hover:shadow-lg transition-all duration-300">
+                  <div className="relative bg-gray-50 h-28 sm:h-44">
+                    <Image src={card.image} alt={card.title} fill sizes="(max-width: 640px) 50vw, 33vw" quality={90} className="object-cover" />
+                  </div>
+                  <div className="p-3 sm:p-5 border-t border-gray-50">
+                    <h3 className="text-sm sm:text-lg font-bold text-gray-900">{card.title}</h3>
+                    <p className="text-[11px] sm:text-sm text-gray-500 mt-0.5 sm:mt-1.5 line-clamp-2">{card.desc}</p>
+                    <span className="hidden sm:inline-block text-sm text-teal-500 font-medium group-hover:underline underline-offset-4 mt-2">시작하기 &rarr;</span>
+                  </div>
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
 
@@ -184,19 +202,3 @@ function StatusRow({ label, total, pending, inProgress, completed, href, bold }:
   return href ? <Link href={href} className="block">{inner}</Link> : <div>{inner}</div>;
 }
 
-/* ── 서비스 바로가기 카드 ── */
-function ServiceLink({ href, title, desc, icon }: { href: string; title: string; desc: string; icon: string }) {
-  return (
-    <Link href={href} className="group flex items-center gap-4 bg-white rounded-2xl border border-gray-100 p-5 hover:shadow-md transition-all">
-      <div className="w-11 h-11 rounded-xl bg-teal-50 flex items-center justify-center shrink-0 group-hover:bg-teal-100 transition-colors">
-        <svg className="w-5 h-5 text-teal-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d={icon} />
-        </svg>
-      </div>
-      <div>
-        <h3 className="text-sm font-bold text-gray-900 group-hover:text-teal-600 transition-colors">{title}</h3>
-        <p className="text-xs text-gray-400">{desc}</p>
-      </div>
-    </Link>
-  );
-}

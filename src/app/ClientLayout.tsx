@@ -57,7 +57,7 @@ function NavDropdown({ group, pathname, onNavigate }: { group: MenuGroup; pathna
   return (
     <div ref={ref} className="relative" onMouseEnter={() => setOpen(true)} onMouseLeave={() => setOpen(false)}>
       <button
-        className={`flex items-center gap-1 px-4 py-2 rounded-full text-[13px] font-medium transition-colors ${
+        className={`flex items-center gap-1 px-4 py-2.5 rounded-full text-[15px] font-semibold transition-colors ${
           hasActive ? "text-teal-600 bg-teal-50" : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
         }`}
       >
