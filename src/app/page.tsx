@@ -28,7 +28,6 @@ export default function LandingPage() {
           <div className={`hidden md:flex items-center gap-6 text-[13px] font-medium ${scrolled ? "text-gray-500" : "text-white/80"}`}>
             <a href="#services" className="hover:text-teal-500 transition-colors">서비스</a>
             <a href="#how-it-works" className="hover:text-teal-500 transition-colors">이용절차</a>
-            <Link href="/board" className="hover:text-teal-500 transition-colors">게시판</Link>
             <a href="#contact" className="hover:text-teal-500 transition-colors">문의</a>
           </div>
           <div className="flex items-center gap-3">

@@ -2,15 +2,8 @@
 
 import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { useUser } from "@/contexts/UserAuthContext";
 import { siteConfig } from "@/lib/siteMode";
-
-const serviceCards = [
-  { title: "연구 설계 상담", desc: "연구 주제 설계, 방법론 안내", href: "/data-generation", image: "/images/서비스_연구설계지원.png" },
-  { title: "통계분석 설계", desc: "분석 방법 선정 및 설계 지원", href: "/stats-design", image: "/images/서비스_계량통계분석.png" },
-  { title: "설문구성 / 조사설계", desc: "설문 구성 및 조사 설계 안내", href: "/survey-request", image: "/images/서비스_설문조사.png" },
-];
 
 interface StatusBreakdown {
   total: number;
@@ -22,150 +15,129 @@ interface StatusBreakdown {
 
 interface ServiceStats {
   researchDesign: StatusBreakdown;
+  statsDesign: StatusBreakdown;
   survey: StatusBreakdown;
 }
 
 export default function DashboardPage() {
   const { user, signOut: userSignOut } = useUser();
-  const emptyBreakdown: StatusBreakdown = { total: 0, pending: 0, received: 0, in_progress: 0, completed: 0 };
-  const [stats, setStats] = useState<ServiceStats>({ researchDesign: { ...emptyBreakdown }, survey: { ...emptyBreakdown } });
+  const empty: StatusBreakdown = { total: 0, pending: 0, received: 0, in_progress: 0, completed: 0 };
+  const [stats, setStats] = useState<ServiceStats>({ researchDesign: { ...empty }, statsDesign: { ...empty }, survey: { ...empty } });
   const [loading, setLoading] = useState(true);
 
   const fetchData = useCallback(async () => {
-    // 로그인하지 않은 경우 의뢰 데이터를 가져오지 않음
-    if (!user) {
-      setLoading(false);
-      return;
-    }
+    if (!user) { setLoading(false); return; }
     try {
-      const emailParam = user.email ? `?email=${encodeURIComponent(user.email)}` : "";
-      const [researchRes, statsDesignRes, surveyRes] = await Promise.all([
-        fetch(`/api/research-design${emailParam}`),
-        fetch(`/api/stats-design${emailParam}`),
-        fetch(`/api/survey${emailParam}`),
+      const ep = user.email ? `?email=${encodeURIComponent(user.email)}` : "";
+      const [r1, r2, r3] = await Promise.all([
+        fetch(`/api/research-design${ep}`),
+        fetch(`/api/stats-design${ep}`),
+        fetch(`/api/survey${ep}`),
       ]);
-      const researchData = await researchRes.json();
-      const statsDesignData = await statsDesignRes.json();
-      const surveyData = await surveyRes.json();
+      const d1 = await r1.json();
+      const d2 = await r2.json();
+      const d3 = await r3.json();
 
-      const countByStatus = (...lists: { status?: string }[][]) => {
-        const all = lists.flat();
-        return {
-          total: all.length,
-          pending: all.filter(r => r.status === "pending" || r.status === "received").length,
-          received: all.filter(r => r.status === "received").length,
-          in_progress: all.filter(r => r.status === "in_progress").length,
-          completed: all.filter(r => r.status === "completed").length,
-        };
-      };
-
-      const rdReqs = [...(researchData.requests || []), ...(statsDesignData.requests || [])];
-      const surveyReqs = surveyData.requests || [];
+      const count = (list: { status?: string }[]) => ({
+        total: list.length,
+        pending: list.filter(r => r.status === "pending" || r.status === "received").length,
+        received: list.filter(r => r.status === "received").length,
+        in_progress: list.filter(r => r.status === "in_progress").length,
+        completed: list.filter(r => r.status === "completed").length,
+      });
 
       setStats({
-        researchDesign: countByStatus(rdReqs),
-        survey: countByStatus(surveyReqs),
+        researchDesign: count(d1.requests || []),
+        statsDesign: count(d2.requests || []),
+        survey: count(d3.requests || []),
       });
-    } catch {
-      console.error("데이터 로드 실패");
-    } finally {
-      setLoading(false);
-    }
+    } catch { /* ignore */ }
+    finally { setLoading(false); }
   }, [user]);
 
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+  useEffect(() => { fetchData(); }, [fetchData]);
 
-  const totalStats: StatusBreakdown = {
-    total: stats.researchDesign.total + stats.survey.total,
-    pending: stats.researchDesign.pending + stats.survey.pending,
-    received: stats.researchDesign.received + stats.survey.received,
-    in_progress: stats.researchDesign.in_progress + stats.survey.in_progress,
-    completed: stats.researchDesign.completed + stats.survey.completed,
+  const total = {
+    total: stats.researchDesign.total + stats.statsDesign.total + stats.survey.total,
+    pending: stats.researchDesign.pending + stats.statsDesign.pending + stats.survey.pending,
+    in_progress: stats.researchDesign.in_progress + stats.statsDesign.in_progress + stats.survey.in_progress,
+    completed: stats.researchDesign.completed + stats.statsDesign.completed + stats.survey.completed,
   };
 
   return (
     <div className="min-h-screen bg-[#faf9f6]">
-      <div className="p-3 sm:p-4 lg:p-6 max-w-7xl mx-auto">
-        {/* Welcome Banner + Stats */}
-        <div className="relative overflow-hidden rounded-xl sm:rounded-2xl bg-white border border-gray-200 p-5 sm:p-8 lg:p-10 mb-6 sm:mb-8 shadow-sm">
-          <div className="relative z-10">
-            <div className="flex items-start justify-between mb-5 sm:mb-8">
-              <div>
-                <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 tracking-tight">
-                  환영합니다
-                </h1>
-                <p className="text-teal-600 mt-1.5 sm:mt-2 text-xs sm:text-sm lg:text-base leading-relaxed">
-                  {siteConfig.name}에서 연구를 시작하세요
-                </p>
-              </div>
-              <div className="flex items-center gap-2 shrink-0">
-                {user ? (
-                  <div className="flex items-center gap-2 bg-gray-50 rounded-lg px-3 py-2 border border-gray-200">
-                    <div className="w-6 h-6 rounded-full bg-teal-100 flex items-center justify-center">
-                      <svg className="w-3.5 h-3.5 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                      </svg>
-                    </div>
-                    <span className="text-xs text-gray-600 hidden sm:inline">{user.email}</span>
-                    <button
-                      onClick={() => userSignOut()}
-                      className="text-[10px] text-gray-400 hover:text-gray-600 transition-colors ml-1"
-                    >
-                      로그아웃
-                    </button>
-                  </div>
-                ) : (
-                  <Link
-                    href="/login"
-                    className="flex items-center gap-2 bg-teal-500 hover:bg-teal-600 rounded-lg px-4 py-2 transition-colors shadow-sm"
-                  >
-                    <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
-                    </svg>
-                    <span className="text-sm text-white font-semibold">로그인</span>
-                  </Link>
-                )}
-              </div>
-            </div>
+      <div className="max-w-5xl mx-auto px-5 sm:px-8 py-8 sm:py-12">
 
-            {/* Stats inside banner — 3 cards only */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3">
-              <StatCard label="전체 요청" breakdown={totalStats} icon="folder" color="blue" />
-              <StatCard label="연구설계" breakdown={stats.researchDesign} icon="lightbulb" color="green" resultsHref="/data-generation" />
-              <StatCard label="설문설계" breakdown={stats.survey} icon="clipboard" color="purple" resultsHref="/survey-results" />
+        {/* 환영 + 유저 */}
+        <div className="flex items-center justify-between mb-8 sm:mb-10">
+          <div>
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
+              {user ? `안녕하세요 :)` : "환영합니다"}
+            </h1>
+            <p className="text-sm text-gray-500 mt-1">{siteConfig.name}에서 연구를 시작하세요</p>
+          </div>
+          {user ? (
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-full bg-teal-100 flex items-center justify-center">
+                <span className="text-sm font-bold text-teal-600">{user.email?.[0]?.toUpperCase()}</span>
+              </div>
+              <div className="hidden sm:block">
+                <p className="text-xs text-gray-600">{user.email}</p>
+                <button onClick={() => userSignOut()} className="text-[10px] text-gray-400 hover:text-gray-600">로그아웃</button>
+              </div>
             </div>
+          ) : (
+            <Link href="/login" className="px-5 py-2 bg-teal-500 text-white rounded-full text-sm font-semibold hover:bg-teal-600 transition-colors">
+              로그인
+            </Link>
+          )}
+        </div>
+
+        {/* 요청 현황 — 가로 행 */}
+        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm mb-8 sm:mb-10 overflow-hidden">
+          <div className="px-6 py-4 border-b border-gray-100">
+            <h2 className="text-base font-bold text-gray-900">요청 현황</h2>
+          </div>
+          <div className="divide-y divide-gray-50">
+            <StatusRow label="전체" total={total.total} pending={total.pending} inProgress={total.in_progress} completed={total.completed} bold />
+            <StatusRow label="연구설계" total={stats.researchDesign.total} pending={stats.researchDesign.pending} inProgress={stats.researchDesign.in_progress} completed={stats.researchDesign.completed} href="/data-generation" />
+            <StatusRow label="통계설계" total={stats.statsDesign.total} pending={stats.statsDesign.pending} inProgress={stats.statsDesign.in_progress} completed={stats.statsDesign.completed} href="/stats-design" />
+            <StatusRow label="설문설계" total={stats.survey.total} pending={stats.survey.pending} inProgress={stats.survey.in_progress} completed={stats.survey.completed} href="/survey-request" />
           </div>
         </div>
 
-        {/* Service Cards */}
-        <div className="mb-6 sm:mb-8">
-          <div className="flex items-center justify-between mb-4 sm:mb-5">
-            <h2 className="text-lg sm:text-xl font-bold text-gray-900">서비스</h2>
+        {/* 서비스 바로가기 */}
+        <div className="mb-8 sm:mb-10">
+          <h2 className="text-base font-bold text-gray-900 mb-4">상담 서비스</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <ServiceLink href="/data-generation" title="연구설계" desc="연구 주제, 방법론 상담" icon="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+            <ServiceLink href="/stats-design" title="통계분석" desc="통계 방법, 도구 설계" icon="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            <ServiceLink href="/survey-request" title="설문구성" desc="설문 구성, 조사 설계" icon="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-5">
-            {serviceCards.map((card) => (
-              <Link key={card.title} href={card.href} className="group block">
-                <div className="rounded-xl sm:rounded-2xl border border-gray-200 bg-white overflow-hidden hover:border-teal-400/40 hover:shadow-lg transition-all duration-300 transform hover:scale-[1.02]">
-                  <div className="relative bg-gray-50 h-28 sm:h-44">
-                    <Image
-                      src={card.image}
-                      alt={card.title}
-                      fill
-                      sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 33vw"
-                      quality={90}
-                      className="object-cover"
-                    />
-                  </div>
-                  <div className="p-3 sm:p-5 border-t border-gray-100">
-                    <h3 className="text-sm sm:text-lg font-bold text-gray-900">{card.title}</h3>
-                    <p className="text-[11px] sm:text-sm text-gray-500 mt-0.5 sm:mt-1.5 line-clamp-2">{card.desc}</p>
-                    <span className="hidden sm:inline-block text-sm text-teal-500 font-medium group-hover:underline underline-offset-4 mt-2">시작하기 &rarr;</span>
-                  </div>
-                </div>
-              </Link>
-            ))}
+        </div>
+
+        {/* 커뮤니티 바로가기 */}
+        <div>
+          <h2 className="text-base font-bold text-gray-900 mb-4">커뮤니티</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <Link href="/board" className="group flex items-center gap-4 bg-white rounded-2xl border border-gray-100 p-5 hover:shadow-md transition-all">
+              <div className="w-11 h-11 rounded-xl bg-sky-50 flex items-center justify-center shrink-0 group-hover:bg-sky-100 transition-colors">
+                <svg className="w-5 h-5 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" /></svg>
+              </div>
+              <div>
+                <h3 className="text-sm font-bold text-gray-900 group-hover:text-sky-600 transition-colors">자유게시판</h3>
+                <p className="text-xs text-gray-400">자유로운 이야기를 나눠보세요</p>
+              </div>
+            </Link>
+            <Link href="/board?category=통계" className="group flex items-center gap-4 bg-white rounded-2xl border border-gray-100 p-5 hover:shadow-md transition-all">
+              <div className="w-11 h-11 rounded-xl bg-violet-50 flex items-center justify-center shrink-0 group-hover:bg-violet-100 transition-colors">
+                <svg className="w-5 h-5 text-violet-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+              </div>
+              <div>
+                <h3 className="text-sm font-bold text-gray-900 group-hover:text-violet-600 transition-colors">질문과 답변</h3>
+                <p className="text-xs text-gray-400">통계, 연구방법, 논문작성</p>
+              </div>
+            </Link>
           </div>
         </div>
 
@@ -174,89 +146,57 @@ export default function DashboardPage() {
   );
 }
 
-function StatCard({
-  label,
-  breakdown,
-  icon,
-  color,
-  resultsHref,
-}: {
-  label: string;
-  breakdown: StatusBreakdown;
-  icon: string;
-  color: string;
-  resultsHref?: string;
+/* ── 요청 현황 행 ── */
+function StatusRow({ label, total, pending, inProgress, completed, href, bold }: {
+  label: string; total: number; pending: number; inProgress: number; completed: number; href?: string; bold?: boolean;
 }) {
-  const colorMap: Record<string, { text: string; iconBg: string }> = {
-    blue: { text: "text-teal-600", iconBg: "bg-teal-100" },
-    green: { text: "text-teal-500", iconBg: "bg-teal-50" },
-    purple: { text: "text-teal-400", iconBg: "bg-teal-50" },
-  };
-
-  const c = colorMap[color] || colorMap.blue;
-
-  const icons: Record<string, React.ReactNode> = {
-    folder: (
-      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
-      </svg>
-    ),
-    lightbulb: (
-      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-      </svg>
-    ),
-    clipboard: (
-      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
-      </svg>
-    ),
-  };
-
-  return (
-    <div className="bg-white rounded-lg sm:rounded-xl border border-gray-200 p-3 sm:p-5 hover:shadow-md transition-all">
-      <div className="flex items-start justify-between">
-        <div>
-          <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl ${c.iconBg} ${c.text} flex items-center justify-center [&_svg]:w-4 [&_svg]:h-4 sm:[&_svg]:w-5 sm:[&_svg]:h-5 mb-2 sm:mb-3`}>
-            {icons[icon]}
-          </div>
-          <div className="text-xl sm:text-3xl font-bold text-gray-900 tracking-tight">{breakdown.total}</div>
-          <span className="text-[10px] sm:text-xs text-gray-500 font-medium mt-0.5 sm:mt-1 block">{label}</span>
+  const inner = (
+    <div className={`flex items-center px-6 py-3.5 ${href ? "hover:bg-gray-50 transition-colors" : ""}`}>
+      <span className={`text-sm ${bold ? "font-bold text-gray-900" : "text-gray-700"} w-20 shrink-0`}>{label}</span>
+      <div className="flex items-center gap-6 flex-1">
+        <div className="flex items-center gap-1.5">
+          <span className="text-xs text-gray-400">전체</span>
+          <span className="text-sm font-bold text-gray-900">{total}</span>
         </div>
-        <div className="flex flex-col gap-1.5 sm:gap-2 text-right">
-          {resultsHref ? (
-            <>
-              <Link href={`${resultsHref}?status=pending`} className="text-[10px] sm:text-xs text-gray-400 flex items-center justify-end gap-1.5 hover:text-gray-700 transition-colors rounded px-1 -mx-1">
-                접수 <span className="font-bold text-gray-700 text-xs sm:text-sm min-w-[16px]">{breakdown.pending}</span>
-                <span className="w-2 h-2 rounded-full bg-gray-400 shrink-0" />
-              </Link>
-              <Link href={`${resultsHref}?status=in_progress`} className="text-[10px] sm:text-xs text-teal-500 flex items-center justify-end gap-1.5 hover:text-teal-700 transition-colors rounded px-1 -mx-1">
-                진행 <span className="font-bold text-gray-700 text-xs sm:text-sm min-w-[16px]">{breakdown.in_progress}</span>
-                <span className="w-2 h-2 rounded-full bg-teal-500 shrink-0" />
-              </Link>
-              <Link href={`${resultsHref}?status=completed`} className="text-[10px] sm:text-xs text-green-500 flex items-center justify-end gap-1.5 hover:text-green-700 transition-colors rounded px-1 -mx-1">
-                완료 <span className="font-bold text-gray-700 text-xs sm:text-sm min-w-[16px]">{breakdown.completed}</span>
-                <span className="w-2 h-2 rounded-full bg-green-500 shrink-0" />
-              </Link>
-            </>
-          ) : (
-            <>
-              <span className="text-[10px] sm:text-xs text-gray-400 flex items-center justify-end gap-1.5">
-                접수 <span className="font-bold text-gray-700 text-xs sm:text-sm min-w-[16px]">{breakdown.pending}</span>
-                <span className="w-2 h-2 rounded-full bg-gray-400 shrink-0" />
-              </span>
-              <span className="text-[10px] sm:text-xs text-teal-500 flex items-center justify-end gap-1.5">
-                진행 <span className="font-bold text-gray-700 text-xs sm:text-sm min-w-[16px]">{breakdown.in_progress}</span>
-                <span className="w-2 h-2 rounded-full bg-teal-500 shrink-0" />
-              </span>
-              <span className="text-[10px] sm:text-xs text-green-500 flex items-center justify-end gap-1.5">
-                완료 <span className="font-bold text-gray-700 text-xs sm:text-sm min-w-[16px]">{breakdown.completed}</span>
-                <span className="w-2 h-2 rounded-full bg-green-500 shrink-0" />
-              </span>
-            </>
-          )}
+        <div className="flex items-center gap-1.5">
+          <span className="w-2 h-2 rounded-full bg-amber-400" />
+          <span className="text-xs text-gray-400">접수</span>
+          <span className="text-sm font-semibold text-gray-700">{pending}</span>
+        </div>
+        <div className="flex items-center gap-1.5">
+          <span className="w-2 h-2 rounded-full bg-blue-400" />
+          <span className="text-xs text-gray-400">진행</span>
+          <span className="text-sm font-semibold text-gray-700">{inProgress}</span>
+        </div>
+        <div className="flex items-center gap-1.5">
+          <span className="w-2 h-2 rounded-full bg-emerald-400" />
+          <span className="text-xs text-gray-400">완료</span>
+          <span className="text-sm font-semibold text-gray-700">{completed}</span>
         </div>
       </div>
+      {href && (
+        <svg className="w-4 h-4 text-gray-300 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+        </svg>
+      )}
     </div>
+  );
+  return href ? <Link href={href} className="block">{inner}</Link> : <div>{inner}</div>;
+}
+
+/* ── 서비스 바로가기 카드 ── */
+function ServiceLink({ href, title, desc, icon }: { href: string; title: string; desc: string; icon: string }) {
+  return (
+    <Link href={href} className="group flex items-center gap-4 bg-white rounded-2xl border border-gray-100 p-5 hover:shadow-md transition-all">
+      <div className="w-11 h-11 rounded-xl bg-teal-50 flex items-center justify-center shrink-0 group-hover:bg-teal-100 transition-colors">
+        <svg className="w-5 h-5 text-teal-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d={icon} />
+        </svg>
+      </div>
+      <div>
+        <h3 className="text-sm font-bold text-gray-900 group-hover:text-teal-600 transition-colors">{title}</h3>
+        <p className="text-xs text-gray-400">{desc}</p>
+      </div>
+    </Link>
   );
 }
