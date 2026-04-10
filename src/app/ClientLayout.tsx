@@ -25,6 +25,13 @@ const menuGroups: MenuGroup[] = [
     ],
   },
   {
+    label: "나의 요청",
+    items: [
+      { label: "요청 현황", href: "/dashboard" },
+      { label: "상담 결과", href: "/survey-results" },
+    ],
+  },
+  {
     label: "게시판",
     items: [
       { label: "자유게시판", href: "/board" },

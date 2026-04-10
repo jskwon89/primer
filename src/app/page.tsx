@@ -29,6 +29,7 @@ export default function LandingPage() {
             <a href="#services" className="hover:text-teal-500 transition-colors">서비스</a>
             <a href="#how-it-works" className="hover:text-teal-500 transition-colors">이용절차</a>
             <a href="#contact" className="hover:text-teal-500 transition-colors">문의</a>
+            <Link href="/dashboard" className="hover:text-teal-500 transition-colors">요청현황</Link>
           </div>
           <div className="flex items-center gap-3">
             <Link href="/login" className={`hidden sm:block text-[15px] font-medium transition-colors ${scrolled ? "text-gray-500 hover:text-gray-900" : "text-white/80 hover:text-white"}`}>로그인</Link>
