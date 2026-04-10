@@ -72,27 +72,21 @@ export default function DashboardPage() {
       <div className="absolute inset-0 bg-[#faf9f6]/80 pointer-events-none" />
       <div className="relative z-10 max-w-5xl mx-auto px-5 sm:px-8 py-8 sm:py-12">
 
-        {/* 환영 + 유저 */}
-        <div className="flex items-center justify-between mb-8 sm:mb-10">
-          <div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
-              {user ? `안녕하세요 :)` : "환영합니다"}
-            </h1>
-            <p className="text-sm text-gray-500 mt-1">{siteConfig.name}에서 연구를 시작하세요</p>
-          </div>
+        {/* 헤더 */}
+        <div className="mb-10 sm:mb-14">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1">
+            {user ? `안녕하세요 :)` : "요청 현황"}
+          </h1>
+          <p className="text-sm text-gray-500">{siteConfig.name} 상담 요청 현황을 확인하세요</p>
         </div>
 
-        {/* 요청 현황 — 카드 그리드 */}
-        <div className="mb-8 sm:mb-10">
-          <h2 className="text-base font-bold text-gray-900 mb-4">요청 현황</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            <StatCard label="전체 요청" count={total.total} sub={`접수 ${total.pending} · 진행 ${total.in_progress} · 완료 ${total.completed}`} color="teal" />
-            <StatCard label="연구설계" count={stats.researchDesign.total} sub={`접수 ${stats.researchDesign.pending} · 진행 ${stats.researchDesign.in_progress} · 완료 ${stats.researchDesign.completed}`} color="sky" href="/data-generation" />
-            <StatCard label="통계설계" count={stats.statsDesign.total} sub={`접수 ${stats.statsDesign.pending} · 진행 ${stats.statsDesign.in_progress} · 완료 ${stats.statsDesign.completed}`} color="violet" href="/stats-design" />
-            <StatCard label="설문설계" count={stats.survey.total} sub={`접수 ${stats.survey.pending} · 진행 ${stats.survey.in_progress} · 완료 ${stats.survey.completed}`} color="amber" href="/survey-request" />
-          </div>
+        {/* 요청 현황 — 큰 카드 그리드 */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 mb-10">
+          <StatCard label="전체 요청" count={total.total} pending={total.pending} inProgress={total.in_progress} completed={total.completed} color="teal" />
+          <StatCard label="연구설계" count={stats.researchDesign.total} pending={stats.researchDesign.pending} inProgress={stats.researchDesign.in_progress} completed={stats.researchDesign.completed} color="sky" href="/data-generation" />
+          <StatCard label="통계설계" count={stats.statsDesign.total} pending={stats.statsDesign.pending} inProgress={stats.statsDesign.in_progress} completed={stats.statsDesign.completed} color="violet" href="/stats-design" />
+          <StatCard label="설문설계" count={stats.survey.total} pending={stats.survey.pending} inProgress={stats.survey.in_progress} completed={stats.survey.completed} color="amber" href="/survey-request" />
         </div>
-
 
       </div>
     </div>
@@ -100,21 +94,37 @@ export default function DashboardPage() {
 }
 
 /* ── 요청 현황 카드 ── */
-function StatCard({ label, count, sub, color, href }: {
-  label: string; count: number; sub: string; color: string; href?: string;
+function StatCard({ label, count, pending, inProgress, completed, color, href }: {
+  label: string; count: number; pending: number; inProgress: number; completed: number; color: string; href?: string;
 }) {
-  const colors: Record<string, { bg: string; text: string; num: string }> = {
-    teal: { bg: "bg-teal-50", text: "text-teal-700", num: "text-teal-600" },
-    sky: { bg: "bg-sky-50", text: "text-sky-700", num: "text-sky-600" },
-    violet: { bg: "bg-violet-50", text: "text-violet-700", num: "text-violet-600" },
-    amber: { bg: "bg-amber-50", text: "text-amber-700", num: "text-amber-600" },
+  const colors: Record<string, { bg: string; border: string; text: string; num: string }> = {
+    teal: { bg: "bg-teal-50", border: "border-teal-200", text: "text-teal-700", num: "text-teal-600" },
+    sky: { bg: "bg-sky-50", border: "border-sky-200", text: "text-sky-700", num: "text-sky-600" },
+    violet: { bg: "bg-violet-50", border: "border-violet-200", text: "text-violet-700", num: "text-violet-600" },
+    amber: { bg: "bg-amber-50", border: "border-amber-200", text: "text-amber-700", num: "text-amber-600" },
   };
   const c = colors[color] || colors.teal;
   const card = (
-    <div className={`${c.bg} rounded-2xl p-5 ${href ? "hover:shadow-md cursor-pointer" : ""} transition-all`}>
-      <p className={`text-xs font-semibold ${c.text} mb-2`}>{label}</p>
-      <p className={`text-3xl sm:text-4xl font-bold ${c.num} mb-2`}>{count}</p>
-      <p className="text-[11px] text-gray-400">{sub}</p>
+    <div className={`${c.bg} border ${c.border} rounded-2xl p-6 sm:p-8 ${href ? "hover:shadow-lg cursor-pointer" : ""} transition-all`}>
+      <p className={`text-sm font-semibold ${c.text} mb-3`}>{label}</p>
+      <p className={`text-4xl sm:text-5xl font-bold ${c.num} mb-5`}>{count}</p>
+      <div className="flex items-center gap-4 text-sm">
+        <div className="flex items-center gap-1.5">
+          <span className="w-2.5 h-2.5 rounded-full bg-amber-400" />
+          <span className="text-gray-500">접수</span>
+          <span className="font-bold text-gray-700">{pending}</span>
+        </div>
+        <div className="flex items-center gap-1.5">
+          <span className="w-2.5 h-2.5 rounded-full bg-blue-400" />
+          <span className="text-gray-500">진행</span>
+          <span className="font-bold text-gray-700">{inProgress}</span>
+        </div>
+        <div className="flex items-center gap-1.5">
+          <span className="w-2.5 h-2.5 rounded-full bg-emerald-400" />
+          <span className="text-gray-500">완료</span>
+          <span className="font-bold text-gray-700">{completed}</span>
+        </div>
+      </div>
     </div>
   );
   return href ? <Link href={href} className="block">{card}</Link> : card;

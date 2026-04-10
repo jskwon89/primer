@@ -25,10 +25,12 @@ const menuGroups: MenuGroup[] = [
     ],
   },
   {
-    label: "나의 요청",
+    label: "요청현황 및 결과",
     items: [
       { label: "요청 현황", href: "/dashboard" },
-      { label: "상담 결과", href: "/survey-results" },
+      { label: "연구설계 결과", href: "/data-generation" },
+      { label: "통계분석 결과", href: "/stats-design" },
+      { label: "설문설계 결과", href: "/survey-results" },
     ],
   },
   {
