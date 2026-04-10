@@ -199,7 +199,7 @@ export default function LandingPage() {
             </div>
             <div className="relative h-48 sm:h-80 rounded-xl sm:rounded-2xl overflow-hidden shadow-lg">
               <Image
-                src="/images/dylan-gillis-KdeqA3aTnBY-unsplash.jpg"
+                src="/images/이용절차.png"
                 alt="이용 절차"
                 fill
                 className="object-cover"

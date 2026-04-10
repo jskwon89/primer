@@ -5,8 +5,8 @@
 export const siteConfig = {
   name: 'PRIMER',
   subtitle: '연구지원 플랫폼',
-  heroTitle: '연구의 첫 걸음,\n함께 시작합니다',
-  heroDesc: '연구설계, 자료수집방법, 통계방법, 논문작성 시 주의사항까지\nPRIMER가 여러분과 함께합니다',
+  heroTitle: '통계분석, 논문작성에\n어려움을 겪고 계신 분들\n모두 환영합니다',
+  heroDesc: '연구설계부터 자료수집방법, 통계방법, 논문작성 시 주의사항까지\nPRIMER가 함께합니다',
   ctaText: '지원 요청하기',
   requestLabel: '지원 요청',
   requestVerb: '요청',
