@@ -25,14 +25,14 @@ export default function LandingPage() {
             </div>
             <span className={`text-lg font-bold tracking-tight ${scrolled ? "text-gray-900" : "text-white"}`}>{siteConfig.name}</span>
           </Link>
-          <div className={`hidden md:flex items-center gap-6 text-[13px] font-medium ${scrolled ? "text-gray-500" : "text-white/80"}`}>
+          <div className={`hidden md:flex items-center gap-8 text-[15px] font-semibold ${scrolled ? "text-gray-600" : "text-white/90"}`}>
             <a href="#services" className="hover:text-teal-500 transition-colors">서비스</a>
             <a href="#how-it-works" className="hover:text-teal-500 transition-colors">이용절차</a>
             <a href="#contact" className="hover:text-teal-500 transition-colors">문의</a>
           </div>
           <div className="flex items-center gap-3">
-            <Link href="/login" className={`hidden sm:block text-[13px] font-medium transition-colors ${scrolled ? "text-gray-500 hover:text-gray-900" : "text-white/80 hover:text-white"}`}>로그인</Link>
-            <Link href="/dashboard" className="text-[13px] font-semibold px-4 py-2 rounded-full bg-teal-500 text-white hover:bg-teal-600 transition-colors">시작하기</Link>
+            <Link href="/login" className={`hidden sm:block text-[15px] font-medium transition-colors ${scrolled ? "text-gray-500 hover:text-gray-900" : "text-white/80 hover:text-white"}`}>로그인</Link>
+            <Link href="/dashboard" className="text-sm font-semibold px-5 py-2.5 rounded-full bg-teal-500 text-white hover:bg-teal-600 transition-colors">시작하기</Link>
           </div>
         </div>
       </nav>
@@ -68,7 +68,7 @@ export default function LandingPage() {
       </section>
 
       {/* 구분선 */}
-      <div className="max-w-6xl mx-auto px-5 sm:px-8"><hr className="border-gray-200" /></div>
+      <div className="max-w-6xl mx-auto px-5 sm:px-8"><hr className="border-gray-300" /></div>
 
       {/* Services — 가로형 카드 */}
       <section id="services" className="py-16 sm:py-28 px-5 sm:px-8">
@@ -116,7 +116,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <div className="max-w-6xl mx-auto px-5 sm:px-8"><hr className="border-gray-200" /></div>
+      <div className="max-w-6xl mx-auto px-5 sm:px-8"><hr className="border-gray-300" /></div>
 
       {/* 특징 — 큰 텍스트 인라인 */}
       <section className="py-16 sm:py-28 px-5 sm:px-8 bg-white">
@@ -144,7 +144,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <div className="max-w-6xl mx-auto px-5 sm:px-8"><hr className="border-gray-200" /></div>
+      <div className="max-w-6xl mx-auto px-5 sm:px-8"><hr className="border-gray-300" /></div>
 
       {/* How it Works — 타임라인 */}
       <section id="how-it-works" className="py-16 sm:py-28 px-5 sm:px-8 bg-[#faf9f6]">
@@ -176,7 +176,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <div className="max-w-6xl mx-auto px-5 sm:px-8"><hr className="border-gray-200" /></div>
+      <div className="max-w-6xl mx-auto px-5 sm:px-8"><hr className="border-gray-300" /></div>
 
       {/* Contact */}
       <section id="contact" className="py-16 sm:py-28 px-5 sm:px-8 bg-white">
