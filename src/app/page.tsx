@@ -25,15 +25,15 @@ export default function LandingPage() {
             </div>
             <span className={`text-lg font-bold tracking-tight ${scrolled ? "text-gray-900" : "text-white"}`}>{siteConfig.name}</span>
           </Link>
-          <div className={`hidden md:flex items-center gap-8 text-[15px] font-semibold ${scrolled ? "text-gray-600" : "text-white/90"}`}>
+          <div className={`hidden md:flex items-center gap-8 text-base font-semibold ${scrolled ? "text-gray-600" : "text-white/90"}`}>
             <a href="#services" className="hover:text-teal-500 transition-colors">서비스</a>
             <a href="#how-it-works" className="hover:text-teal-500 transition-colors">이용절차</a>
             <a href="#contact" className="hover:text-teal-500 transition-colors">문의</a>
-            <Link href="/dashboard" className="hover:text-teal-500 transition-colors">요청현황</Link>
+            <Link href="/dashboard" className="hover:text-teal-500 transition-colors">MY PRIMER</Link>
           </div>
           <div className="flex items-center gap-3">
-            <Link href="/login" className={`hidden sm:block text-[15px] font-medium transition-colors ${scrolled ? "text-gray-500 hover:text-gray-900" : "text-white/80 hover:text-white"}`}>로그인</Link>
-            <Link href="/dashboard" className="text-sm font-semibold px-5 py-2.5 rounded-full bg-teal-500 text-white hover:bg-teal-600 transition-colors">시작하기</Link>
+            <Link href="/login" className={`hidden sm:block text-base font-medium transition-colors ${scrolled ? "text-gray-500 hover:text-gray-900" : "text-white/80 hover:text-white"}`}>로그인</Link>
+            <Link href="/dashboard" className="text-base font-semibold px-6 py-2.5 rounded-full bg-teal-500 text-white hover:bg-teal-600 transition-colors">시작하기</Link>
           </div>
         </div>
       </nav>

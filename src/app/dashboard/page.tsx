@@ -98,10 +98,10 @@ function StatCard({ label, count, pending, inProgress, completed, color, href }:
   label: string; count: number; pending: number; inProgress: number; completed: number; color: string; href?: string;
 }) {
   const colors: Record<string, { bg: string; border: string; text: string; num: string }> = {
-    teal: { bg: "bg-teal-50", border: "border-teal-200", text: "text-teal-700", num: "text-teal-600" },
-    sky: { bg: "bg-sky-50", border: "border-sky-200", text: "text-sky-700", num: "text-sky-600" },
-    violet: { bg: "bg-violet-50", border: "border-violet-200", text: "text-violet-700", num: "text-violet-600" },
-    amber: { bg: "bg-amber-50", border: "border-amber-200", text: "text-amber-700", num: "text-amber-600" },
+    teal: { bg: "bg-teal-100/70", border: "border-teal-200", text: "text-teal-800", num: "text-teal-700" },
+    sky: { bg: "bg-sky-100/70", border: "border-sky-200", text: "text-sky-800", num: "text-sky-700" },
+    violet: { bg: "bg-violet-100/70", border: "border-violet-200", text: "text-violet-800", num: "text-violet-700" },
+    amber: { bg: "bg-amber-100/70", border: "border-amber-200", text: "text-amber-800", num: "text-amber-700" },
   };
   const c = colors[color] || colors.teal;
   const card = (

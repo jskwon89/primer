@@ -25,7 +25,7 @@ const menuGroups: MenuGroup[] = [
     ],
   },
   {
-    label: "요청현황 및 결과",
+    label: "MY PRIMER",
     items: [
       { label: "요청 현황", href: "/dashboard" },
       { label: "연구설계 결과", href: "/data-generation" },
