@@ -115,13 +115,13 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
       {/* ── Top Navigation Bar ── */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-100">
         <div className="max-w-6xl mx-auto px-5 sm:px-8">
-          <div className="flex items-center justify-between h-14 sm:h-16">
+          <div className="flex items-center justify-between h-16 sm:h-20">
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-2.5 shrink-0">
-              <div className="w-8 h-8 rounded-full bg-teal-500 flex items-center justify-center">
-                <span className="text-white font-bold text-sm">P</span>
+            <Link href="/" className="flex items-center gap-3 shrink-0">
+              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-teal-500 flex items-center justify-center">
+                <span className="text-white font-bold text-base sm:text-lg">P</span>
               </div>
-              <span className="text-lg font-bold text-gray-900 tracking-tight">{siteConfig.name}</span>
+              <span className="text-xl sm:text-2xl font-bold text-gray-900 tracking-tight">{siteConfig.name}</span>
             </Link>
 
             {/* Desktop: dropdown menus */}
@@ -153,7 +153,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
                   <button onClick={() => userSignOut()} className="text-[10px] text-gray-400 hover:text-gray-600 ml-1">로그아웃</button>
                 </div>
               ) : (
-                <Link href="/login" className="px-4 py-2 bg-teal-500 text-white rounded-full text-xs font-semibold hover:bg-teal-600 transition-colors">
+                <Link href="/login" className="px-5 py-2.5 bg-teal-500 text-white rounded-full text-sm font-semibold hover:bg-teal-600 transition-colors">
                   로그인
                 </Link>
               )}
@@ -208,7 +208,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
         )}
       </header>
 
-      <main className="min-h-screen overflow-x-hidden pt-14 sm:pt-16">
+      <main className="min-h-screen overflow-x-hidden pt-16 sm:pt-20">
         {children}
       </main>
 

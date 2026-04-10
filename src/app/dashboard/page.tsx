@@ -72,8 +72,12 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#faf9f6]">
-      <div className="max-w-5xl mx-auto px-5 sm:px-8 py-8 sm:py-12">
+    <div
+      className="min-h-screen"
+      style={{ backgroundImage: "url('/images/dashboard-bg.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundAttachment: "fixed" }}
+    >
+      <div className="absolute inset-0 bg-[#faf9f6]/80 pointer-events-none" />
+      <div className="relative z-10 max-w-5xl mx-auto px-5 sm:px-8 py-8 sm:py-12">
 
         {/* 환영 + 유저 */}
         <div className="flex items-center justify-between mb-8 sm:mb-10">
@@ -83,33 +87,16 @@ export default function DashboardPage() {
             </h1>
             <p className="text-sm text-gray-500 mt-1">{siteConfig.name}에서 연구를 시작하세요</p>
           </div>
-          {user ? (
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-full bg-teal-100 flex items-center justify-center">
-                <span className="text-sm font-bold text-teal-600">{user.email?.[0]?.toUpperCase()}</span>
-              </div>
-              <div className="hidden sm:block">
-                <p className="text-xs text-gray-600">{user.email}</p>
-                <button onClick={() => userSignOut()} className="text-[10px] text-gray-400 hover:text-gray-600">로그아웃</button>
-              </div>
-            </div>
-          ) : (
-            <Link href="/login" className="px-5 py-2 bg-teal-500 text-white rounded-full text-sm font-semibold hover:bg-teal-600 transition-colors">
-              로그인
-            </Link>
-          )}
         </div>
 
-        {/* 요청 현황 — 가로 행 */}
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm mb-8 sm:mb-10 overflow-hidden">
-          <div className="px-6 py-4 border-b border-gray-100">
-            <h2 className="text-base font-bold text-gray-900">요청 현황</h2>
-          </div>
-          <div className="divide-y divide-gray-50">
-            <StatusRow label="전체" total={total.total} pending={total.pending} inProgress={total.in_progress} completed={total.completed} bold />
-            <StatusRow label="연구설계" total={stats.researchDesign.total} pending={stats.researchDesign.pending} inProgress={stats.researchDesign.in_progress} completed={stats.researchDesign.completed} href="/data-generation" />
-            <StatusRow label="통계설계" total={stats.statsDesign.total} pending={stats.statsDesign.pending} inProgress={stats.statsDesign.in_progress} completed={stats.statsDesign.completed} href="/stats-design" />
-            <StatusRow label="설문설계" total={stats.survey.total} pending={stats.survey.pending} inProgress={stats.survey.in_progress} completed={stats.survey.completed} href="/survey-request" />
+        {/* 요청 현황 — 카드 그리드 */}
+        <div className="mb-8 sm:mb-10">
+          <h2 className="text-base font-bold text-gray-900 mb-4">요청 현황</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <StatCard label="전체 요청" count={total.total} sub={`접수 ${total.pending} · 진행 ${total.in_progress} · 완료 ${total.completed}`} color="teal" />
+            <StatCard label="연구설계" count={stats.researchDesign.total} sub={`접수 ${stats.researchDesign.pending} · 진행 ${stats.researchDesign.in_progress} · 완료 ${stats.researchDesign.completed}`} color="sky" href="/data-generation" />
+            <StatCard label="통계설계" count={stats.statsDesign.total} sub={`접수 ${stats.statsDesign.pending} · 진행 ${stats.statsDesign.in_progress} · 완료 ${stats.statsDesign.completed}`} color="violet" href="/stats-design" />
+            <StatCard label="설문설계" count={stats.survey.total} sub={`접수 ${stats.survey.pending} · 진행 ${stats.survey.in_progress} · 완료 ${stats.survey.completed}`} color="amber" href="/survey-request" />
           </div>
         </div>
 
@@ -164,41 +151,24 @@ export default function DashboardPage() {
   );
 }
 
-/* ── 요청 현황 행 ── */
-function StatusRow({ label, total, pending, inProgress, completed, href, bold }: {
-  label: string; total: number; pending: number; inProgress: number; completed: number; href?: string; bold?: boolean;
+/* ── 요청 현황 카드 ── */
+function StatCard({ label, count, sub, color, href }: {
+  label: string; count: number; sub: string; color: string; href?: string;
 }) {
-  const inner = (
-    <div className={`flex items-center px-6 py-3.5 ${href ? "hover:bg-gray-50 transition-colors" : ""}`}>
-      <span className={`text-sm ${bold ? "font-bold text-gray-900" : "text-gray-700"} w-20 shrink-0`}>{label}</span>
-      <div className="flex items-center gap-6 flex-1">
-        <div className="flex items-center gap-1.5">
-          <span className="text-xs text-gray-400">전체</span>
-          <span className="text-sm font-bold text-gray-900">{total}</span>
-        </div>
-        <div className="flex items-center gap-1.5">
-          <span className="w-2 h-2 rounded-full bg-amber-400" />
-          <span className="text-xs text-gray-400">접수</span>
-          <span className="text-sm font-semibold text-gray-700">{pending}</span>
-        </div>
-        <div className="flex items-center gap-1.5">
-          <span className="w-2 h-2 rounded-full bg-blue-400" />
-          <span className="text-xs text-gray-400">진행</span>
-          <span className="text-sm font-semibold text-gray-700">{inProgress}</span>
-        </div>
-        <div className="flex items-center gap-1.5">
-          <span className="w-2 h-2 rounded-full bg-emerald-400" />
-          <span className="text-xs text-gray-400">완료</span>
-          <span className="text-sm font-semibold text-gray-700">{completed}</span>
-        </div>
-      </div>
-      {href && (
-        <svg className="w-4 h-4 text-gray-300 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-        </svg>
-      )}
+  const colors: Record<string, { bg: string; text: string; num: string }> = {
+    teal: { bg: "bg-teal-50", text: "text-teal-700", num: "text-teal-600" },
+    sky: { bg: "bg-sky-50", text: "text-sky-700", num: "text-sky-600" },
+    violet: { bg: "bg-violet-50", text: "text-violet-700", num: "text-violet-600" },
+    amber: { bg: "bg-amber-50", text: "text-amber-700", num: "text-amber-600" },
+  };
+  const c = colors[color] || colors.teal;
+  const card = (
+    <div className={`${c.bg} rounded-2xl p-5 ${href ? "hover:shadow-md cursor-pointer" : ""} transition-all`}>
+      <p className={`text-xs font-semibold ${c.text} mb-2`}>{label}</p>
+      <p className={`text-3xl sm:text-4xl font-bold ${c.num} mb-2`}>{count}</p>
+      <p className="text-[11px] text-gray-400">{sub}</p>
     </div>
   );
-  return href ? <Link href={href} className="block">{inner}</Link> : <div>{inner}</div>;
+  return href ? <Link href={href} className="block">{card}</Link> : card;
 }
 
