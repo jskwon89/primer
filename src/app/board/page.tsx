@@ -92,12 +92,12 @@ export default function BoardPage() {
         {user ? (
           <button
             onClick={() => setShowWrite(true)}
-            className="px-4 py-2 bg-[#c49a2e] text-white rounded-lg text-sm font-medium hover:bg-[#b08a28] transition-colors"
+            className="px-4 py-2 bg-teal-500 text-white rounded-full text-sm font-medium hover:bg-teal-600 transition-colors"
           >
             글쓰기
           </button>
         ) : (
-          <Link href="/login?redirect=/board" className="px-4 py-2 bg-[#c49a2e] text-white rounded-lg text-sm font-medium hover:bg-[#b08a28] transition-colors">
+          <Link href="/login?redirect=/board" className="px-4 py-2 bg-teal-500 text-white rounded-full text-sm font-medium hover:bg-teal-600 transition-colors">
             로그인 후 글쓰기
           </Link>
         )}
@@ -124,7 +124,7 @@ export default function BoardPage() {
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
             placeholder="검색..."
-            className="px-3 py-1.5 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#c49a2e]/30 w-40"
+            className="px-3 py-1.5 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-teal-400/30 w-40"
           />
           <button type="submit" className="px-3 py-1.5 bg-gray-100 text-gray-600 rounded-lg text-sm hover:bg-gray-200 transition-colors">
             검색
@@ -154,7 +154,7 @@ export default function BoardPage() {
                     <span className="inline-flex px-2 py-0.5 rounded text-[10px] font-medium bg-gray-100 text-gray-500">
                       {post.category}
                     </span>
-                    <h3 className="text-sm font-medium text-gray-900 group-hover:text-[#c49a2e] transition-colors truncate">
+                    <h3 className="text-sm font-medium text-gray-900 group-hover:text-teal-500 transition-colors truncate">
                       {post.title}
                     </h3>
                   </div>
@@ -164,7 +164,7 @@ export default function BoardPage() {
                     <span>조회 {post.view_count}</span>
                   </div>
                 </div>
-                <svg className="w-4 h-4 text-gray-300 group-hover:text-[#c49a2e] transition-colors shrink-0 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 text-gray-300 group-hover:text-teal-500 transition-colors shrink-0 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               </Link>
@@ -191,7 +191,7 @@ export default function BoardPage() {
                 <select
                   value={postCategory}
                   onChange={(e) => setPostCategory(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#c49a2e]/30"
+                  className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-teal-400/30"
                 >
                   {categories.filter(c => c !== "전체").map((cat) => (
                     <option key={cat} value={cat}>{cat}</option>
@@ -205,7 +205,7 @@ export default function BoardPage() {
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder="제목을 입력하세요"
-                  className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#c49a2e]/30"
+                  className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-teal-400/30"
                 />
               </div>
               <div>
@@ -215,7 +215,7 @@ export default function BoardPage() {
                   onChange={(e) => setContent(e.target.value)}
                   placeholder="질문이나 내용을 작성하세요"
                   rows={8}
-                  className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#c49a2e]/30 resize-none"
+                  className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-teal-400/30 resize-none"
                 />
               </div>
               <div className="flex justify-end gap-3">
@@ -225,7 +225,7 @@ export default function BoardPage() {
                 <button
                   onClick={handleSubmit}
                   disabled={submitting || !title.trim() || !content.trim()}
-                  className="px-6 py-2 bg-[#c49a2e] text-white rounded-lg text-sm font-medium hover:bg-[#b08a28] disabled:opacity-50 transition-colors"
+                  className="px-6 py-2 bg-teal-500 text-white rounded-full text-sm font-medium hover:bg-teal-600 disabled:opacity-50 transition-colors"
                 >
                   {submitting ? "작성 중..." : "등록"}
                 </button>

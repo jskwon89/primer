@@ -144,7 +144,7 @@ export default function SurveyResultsPage() {
             <p className="text-sm text-gray-400 mb-4">아직 의뢰 내역이 없습니다.</p>
             <Link
               href="/survey-request"
-              className="inline-flex items-center gap-2 px-4 py-2 bg-[#c49a2e] text-white rounded-lg text-sm font-medium hover:bg-[#b08a28] transition-colors"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-teal-500 text-white rounded-lg text-sm font-medium hover:bg-teal-600 transition-colors"
             >
               설문조사 의뢰하기
             </Link>
@@ -209,22 +209,22 @@ export default function SurveyResultsPage() {
         <h3 className="font-semibold mb-4">진행 절차 안내</h3>
         <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
           <div className="text-center">
-            <div className="w-10 h-10 rounded-full bg-[#c49a2e] text-white flex items-center justify-center mx-auto mb-2 text-sm font-bold">1</div>
+            <div className="w-10 h-10 rounded-full bg-teal-500 text-white flex items-center justify-center mx-auto mb-2 text-sm font-bold">1</div>
             <p className="text-sm font-medium">의뢰 접수</p>
             <p className="text-xs text-gray-600 mt-1">설문 정보 입력 및 제출</p>
           </div>
           <div className="text-center">
-            <div className="w-10 h-10 rounded-full bg-[#c49a2e] text-white flex items-center justify-center mx-auto mb-2 text-sm font-bold">2</div>
+            <div className="w-10 h-10 rounded-full bg-teal-500 text-white flex items-center justify-center mx-auto mb-2 text-sm font-bold">2</div>
             <p className="text-sm font-medium">견적 안내</p>
             <p className="text-xs text-gray-600 mt-1">검토 후 비용 및 일정 안내</p>
           </div>
           <div className="text-center">
-            <div className="w-10 h-10 rounded-full bg-[#c49a2e] text-white flex items-center justify-center mx-auto mb-2 text-sm font-bold">3</div>
+            <div className="w-10 h-10 rounded-full bg-teal-500 text-white flex items-center justify-center mx-auto mb-2 text-sm font-bold">3</div>
             <p className="text-sm font-medium">조사 진행</p>
             <p className="text-xs text-gray-600 mt-1">설문 배포 및 응답 수집</p>
           </div>
           <div className="text-center">
-            <div className="w-10 h-10 rounded-full bg-[#c49a2e] text-white flex items-center justify-center mx-auto mb-2 text-sm font-bold">4</div>
+            <div className="w-10 h-10 rounded-full bg-teal-500 text-white flex items-center justify-center mx-auto mb-2 text-sm font-bold">4</div>
             <p className="text-sm font-medium">결과 전달</p>
             <p className="text-xs text-gray-600 mt-1">원시 데이터 + 기초 분석 보고서</p>
           </div>
@@ -388,7 +388,7 @@ export default function SurveyResultsPage() {
                         <div
                           className={`max-w-[80%] rounded-xl px-4 py-2.5 ${
                             msg.sender === "user"
-                              ? "bg-[#c49a2e]/10 border border-[#c49a2e]/20 text-gray-900"
+                              ? "bg-teal-500/10 border border-teal-500/20 text-gray-900"
                               : "bg-gray-100 text-gray-900"
                           }`}
                         >
@@ -398,7 +398,7 @@ export default function SurveyResultsPage() {
                           <p
                             className={`text-[10px] mt-1 ${
                               msg.sender === "user"
-                                ? "text-[#c49a2e]/60 text-right"
+                                ? "text-teal-500/60 text-right"
                                 : "text-gray-400"
                             }`}
                           >
@@ -432,12 +432,12 @@ export default function SurveyResultsPage() {
                     }
                   }}
                   placeholder="메시지를 입력하세요..."
-                  className="flex-1 px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#c49a2e]/40 focus:border-[#c49a2e]"
+                  className="flex-1 px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-400/40 focus:border-teal-400"
                 />
                 <button
                   onClick={handleSendMessage}
                   disabled={sendingChat || !chatInput.trim()}
-                  className="px-4 py-2.5 bg-[#c49a2e] text-white rounded-lg text-sm font-medium hover:bg-[#b08a28] transition-colors disabled:opacity-50 disabled:cursor-not-allowed shrink-0"
+                  className="px-4 py-2.5 bg-teal-500 text-white rounded-lg text-sm font-medium hover:bg-teal-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shrink-0"
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />

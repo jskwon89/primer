@@ -426,13 +426,13 @@ export default function AdminPage() {
                   .map((req) => (
                     <div key={req.id} className="flex items-center justify-between py-2 border-b border-gray-50 last:border-0">
                       <div>
-                        <span className="text-xs font-medium text-[#c49a2e] mr-2">[{req._label}]</span>
+                        <span className="text-xs font-medium text-teal-500 mr-2">[{req._label}]</span>
                         <span className="text-sm text-gray-700">{String((req as Record<string, unknown>)[req._titleField] || "").slice(0, 40) || req.email}</span>
                         <span className="text-xs text-gray-400 ml-2">{new Date(req.createdAt).toLocaleDateString("ko-KR")}</span>
                       </div>
                       <button
                         onClick={() => { setActiveTab("requests"); setSelectedReq({ type: req._type, api: req._api, req }); setNewStatus(req.status); setAdminResponse(req.adminResponse || ""); fetchChatMessages(req._api, req.id); if (req._type === "judgment-coding" && (req as Record<string, unknown>).projectId) fetchReqFiles(String((req as Record<string, unknown>).projectId)); else setReqFiles([]); }}
-                        className="px-3 py-1 text-xs text-[#c49a2e] border border-[#c49a2e]/30 rounded-lg hover:bg-[#c49a2e]/5"
+                        className="px-3 py-1 text-xs text-teal-500 border border-teal-500/30 rounded-lg hover:bg-teal-500/5"
                       >
                         처리
                       </button>
@@ -475,7 +475,7 @@ export default function AdminPage() {
             <select
               value={filterType}
               onChange={(e) => setFilterType(e.target.value)}
-              className="px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#c49a2e]/30"
+              className="px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-teal-400/30"
             >
               <option value="all">전체 서비스</option>
               {serviceTypes.map((s) => (
@@ -538,7 +538,7 @@ export default function AdminPage() {
                       return (
                         <tr key={`${req._type}-${req.id}`} className="border-b border-gray-50 hover:bg-gray-50">
                           <td className="px-4 py-3">
-                            <span className="inline-flex px-2 py-0.5 rounded text-xs font-medium bg-[#c49a2e]/10 text-[#c49a2e]">
+                            <span className="inline-flex px-2 py-0.5 rounded text-xs font-medium bg-teal-500/10 text-teal-500">
                               {req._label}
                             </span>
                           </td>
@@ -555,7 +555,7 @@ export default function AdminPage() {
                           <td className="px-4 py-3 text-right">
                             <button
                               onClick={() => { setSelectedReq({ type: req._type, api: req._api, req }); setNewStatus(req.status); setAdminResponse(req.adminResponse || ""); fetchChatMessages(req._api, req.id); if (req._type === "judgment-coding" && (req as Record<string, unknown>).projectId) fetchReqFiles(String((req as Record<string, unknown>).projectId)); else setReqFiles([]); }}
-                              className="px-3 py-1.5 text-xs text-[#c49a2e] border border-[#c49a2e]/30 rounded-lg hover:bg-[#c49a2e]/5 transition-colors"
+                              className="px-3 py-1.5 text-xs text-teal-500 border border-teal-500/30 rounded-lg hover:bg-teal-500/5 transition-colors"
                             >
                               상세/처리
                             </button>
@@ -619,7 +619,7 @@ export default function AdminPage() {
                             const projectId = String((selectedReq.req as Record<string, unknown>).projectId);
                             window.open(`/api/projects/${projectId}/files/download-all`, "_blank");
                           }}
-                          className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-medium text-white bg-[#c49a2e] rounded-md hover:bg-[#b08a28] transition-colors"
+                          className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-medium text-white bg-teal-500 rounded-md hover:bg-teal-600 transition-colors"
                         >
                           <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
@@ -643,7 +643,7 @@ export default function AdminPage() {
                                 const data = await res.json();
                                 if (data.url) window.open(data.url, "_blank");
                               }}
-                              className="text-xs text-[#c49a2e] hover:text-[#b08a28] font-medium shrink-0"
+                              className="text-xs text-teal-500 hover:text-teal-600 font-medium shrink-0"
                             >
                               다운로드
                             </button>
@@ -660,7 +660,7 @@ export default function AdminPage() {
                       <select
                         value={newStatus}
                         onChange={(e) => setNewStatus(e.target.value)}
-                        className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#c49a2e]/30"
+                        className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-teal-400/30"
                       >
                         <option value="pending">접수 대기중</option>
                         <option value="received">접수 완료</option>
@@ -675,13 +675,13 @@ export default function AdminPage() {
                         onChange={(e) => setAdminResponse(e.target.value)}
                         rows={3}
                         placeholder="완료 시 결과 안내 메시지를 작성하세요"
-                        className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#c49a2e]/30 resize-none"
+                        className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-teal-400/30 resize-none"
                       />
                     </div>
                     <button
                       onClick={handleUpdateRequest}
                       disabled={updating}
-                      className="px-6 py-2.5 bg-[#c49a2e] text-white rounded-lg text-sm font-semibold hover:bg-[#b08a28] disabled:opacity-50 transition-colors"
+                      className="px-6 py-2.5 bg-teal-500 text-white rounded-lg text-sm font-semibold hover:bg-teal-600 disabled:opacity-50 transition-colors"
                     >
                       {updating ? "처리 중..." : "저장"}
                     </button>
@@ -696,7 +696,7 @@ export default function AdminPage() {
                       ) : (
                         chatMessages.map((msg) => (
                           <div key={msg.id} className={`flex ${msg.sender === "admin" ? "justify-end" : "justify-start"}`}>
-                            <div className={`max-w-[80%] rounded-lg px-3 py-2 text-sm ${msg.sender === "admin" ? "bg-[#c49a2e]/10 text-gray-900" : "bg-gray-100 text-gray-900"}`}>
+                            <div className={`max-w-[80%] rounded-lg px-3 py-2 text-sm ${msg.sender === "admin" ? "bg-teal-500/10 text-gray-900" : "bg-gray-100 text-gray-900"}`}>
                               <p className="whitespace-pre-wrap">{msg.message}</p>
                               <p className="text-[10px] text-gray-400 mt-1">
                                 {msg.sender === "admin" ? "관리자" : "사용자"} &middot; {new Date(msg.createdAt).toLocaleString("ko-KR", { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" })}
@@ -713,12 +713,12 @@ export default function AdminPage() {
                         onChange={(e) => setAdminChatInput(e.target.value)}
                         onKeyDown={(e) => { if (e.key === "Enter") handleSendAdminChat(); }}
                         placeholder="관리자 메시지 입력..."
-                        className="flex-1 px-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#c49a2e]/30"
+                        className="flex-1 px-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-400/30"
                       />
                       <button
                         onClick={handleSendAdminChat}
                         disabled={sendingChat || !adminChatInput.trim()}
-                        className="px-4 py-2 bg-[#c49a2e] text-white rounded-lg text-sm font-medium hover:bg-[#b08a28] disabled:opacity-50"
+                        className="px-4 py-2 bg-teal-500 text-white rounded-lg text-sm font-medium hover:bg-teal-600 disabled:opacity-50"
                       >
                         전송
                       </button>
@@ -770,7 +770,7 @@ export default function AdminPage() {
                         <td className="px-4 py-3 text-right">
                           <button
                             onClick={() => { setSelectedInquiry(inq); setAdminReply(inq.adminReply || ""); }}
-                            className="px-3 py-1.5 text-xs text-[#c49a2e] border border-[#c49a2e]/30 rounded-lg hover:bg-[#c49a2e]/5 transition-colors"
+                            className="px-3 py-1.5 text-xs text-teal-500 border border-teal-500/30 rounded-lg hover:bg-teal-500/5 transition-colors"
                           >
                             {inq.status === "replied" ? "보기" : "답변"}
                           </button>
@@ -816,7 +816,7 @@ export default function AdminPage() {
                       onChange={(e) => setAdminReply(e.target.value)}
                       rows={4}
                       placeholder="답변을 작성해주세요"
-                      className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#c49a2e]/30 resize-none"
+                      className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-teal-400/30 resize-none"
                     />
                   </div>
                   <div className="flex justify-end gap-3">
@@ -829,7 +829,7 @@ export default function AdminPage() {
                     <button
                       onClick={handleReplyInquiry}
                       disabled={replyUpdating || !adminReply.trim()}
-                      className="px-6 py-2.5 bg-[#c49a2e] text-white rounded-xl text-sm font-semibold hover:bg-[#b08a28] disabled:opacity-50 transition-colors"
+                      className="px-6 py-2.5 bg-teal-500 text-white rounded-xl text-sm font-semibold hover:bg-teal-600 disabled:opacity-50 transition-colors"
                     >
                       {replyUpdating ? "처리 중..." : "답변 저장"}
                     </button>
@@ -846,7 +846,7 @@ export default function AdminPage() {
         <div className="space-y-6">
           <div className="bg-white rounded-xl border border-gray-200 p-6">
             <h3 className="font-bold text-gray-900 mb-1">크레딧 잔액</h3>
-            <p className="text-3xl font-bold text-[#c49a2e] mb-6">{credits?.balance?.toLocaleString() ?? 0} 크레딧</p>
+            <p className="text-3xl font-bold text-teal-500 mb-6">{credits?.balance?.toLocaleString() ?? 0} 크레딧</p>
 
             <div className="flex gap-3 items-end">
               <div className="flex-1">
@@ -857,7 +857,7 @@ export default function AdminPage() {
                   onChange={(e) => setChargeAmount(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && handleCharge()}
                   placeholder="충전할 크레딧 수"
-                  className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#c49a2e]/30 focus:border-[#c49a2e]"
+                  className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-teal-400/30 focus:border-teal-400"
                 />
               </div>
               <div className="flex gap-2">
@@ -874,7 +874,7 @@ export default function AdminPage() {
               <button
                 onClick={handleCharge}
                 disabled={charging || !chargeAmount}
-                className="px-6 py-2.5 bg-[#c49a2e] text-white rounded-xl text-sm font-semibold hover:bg-[#d4a843] disabled:opacity-50 transition-colors"
+                className="px-6 py-2.5 bg-teal-500 text-white rounded-xl text-sm font-semibold hover:bg-teal-600 disabled:opacity-50 transition-colors"
               >
                 {charging ? "충전 중..." : "충전"}
               </button>
@@ -951,7 +951,7 @@ export default function AdminPage() {
                       <td className="px-6 py-3 text-center text-gray-700">{p.caseCount}</td>
                       <td className="px-6 py-3 text-center text-gray-700">{p.codedCount}</td>
                       <td className="px-6 py-3 text-center">
-                        <span className="text-sm font-bold text-[#c49a2e]">{pct}%</span>
+                        <span className="text-sm font-bold text-teal-500">{pct}%</span>
                       </td>
                       <td className="px-6 py-3 text-right">
                         <button
@@ -992,7 +992,7 @@ export default function AdminPage() {
                   <button
                     onClick={() => setSiteSettings((prev) => ({ ...prev, [section.key]: !prev[section.key] }))}
                     className={`relative w-12 h-6 rounded-full transition-colors ${
-                      siteSettings[section.key] ? "bg-[#c49a2e]" : "bg-gray-300"
+                      siteSettings[section.key] ? "bg-teal-500" : "bg-gray-300"
                     }`}
                   >
                     <span
@@ -1009,7 +1009,7 @@ export default function AdminPage() {
               <button
                 onClick={handleSaveSiteSettings}
                 disabled={savingSettings}
-                className="px-6 py-2.5 bg-[#c49a2e] text-white rounded-lg text-sm font-semibold hover:bg-[#b08a28] disabled:opacity-50 transition-colors"
+                className="px-6 py-2.5 bg-teal-500 text-white rounded-lg text-sm font-semibold hover:bg-teal-600 disabled:opacity-50 transition-colors"
               >
                 {savingSettings ? "저장 중..." : "저장"}
               </button>
@@ -1026,7 +1026,7 @@ export default function AdminPage() {
 
 function OverviewCard({ label, value, color }: { label: string; value: string | number; color: string }) {
   const colors: Record<string, string> = {
-    amber: "bg-[#c49a2e]/10 text-[#c49a2e]",
+    amber: "bg-teal-500/10 text-teal-500",
     blue: "bg-blue-50 text-blue-600",
     green: "bg-green-50 text-green-600",
     purple: "bg-purple-50 text-purple-600",

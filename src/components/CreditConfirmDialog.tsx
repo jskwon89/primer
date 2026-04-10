@@ -30,11 +30,11 @@ export default function CreditConfirmDialog({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-      <div className="bg-[#1e2d47] rounded-xl border border-[#2a3a54] shadow-xl w-full max-w-md mx-4">
+      <div className="bg-white rounded-2xl border border-gray-200 shadow-xl w-full max-w-md mx-4">
         {/* Header */}
         <div className="px-6 pt-6 pb-2">
-          <h3 className="text-lg font-bold text-white">{serviceName}</h3>
-          <p className="text-sm text-gray-400 mt-1">
+          <h3 className="text-lg font-bold text-gray-900">{serviceName}</h3>
+          <p className="text-sm text-gray-500 mt-1">
             아래 크레딧이 소모됩니다. 진행하시겠습니까?
           </p>
         </div>
@@ -42,10 +42,10 @@ export default function CreditConfirmDialog({
         {/* Details */}
         {details && details.length > 0 && (
           <div className="px-6 pb-2">
-            <div className="bg-[#0f1a2e] rounded-lg px-4 py-3 space-y-1">
+            <div className="bg-gray-50 rounded-lg px-4 py-3 space-y-1">
               {details.map((item, i) => (
-                <div key={i} className="text-xs text-gray-300 flex items-center gap-2">
-                  <span className="w-1 h-1 rounded-full bg-gray-500 shrink-0" />
+                <div key={i} className="text-xs text-gray-600 flex items-center gap-2">
+                  <span className="w-1 h-1 rounded-full bg-gray-400 shrink-0" />
                   {item}
                 </div>
               ))}
@@ -57,19 +57,19 @@ export default function CreditConfirmDialog({
         <div className="px-6 py-4">
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-400">보유</span>
-              <span className="text-sm text-white">
+              <span className="text-sm text-gray-500">보유</span>
+              <span className="text-sm text-gray-900">
                 {currentBalance.toLocaleString()} 크레딧
               </span>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-400">차감</span>
+              <span className="text-sm text-gray-500">차감</span>
               <span className="text-sm font-medium text-red-600">
                 -{creditCost.toLocaleString()} 크레딧
               </span>
             </div>
-            <div className="border-t border-[#2a3a54] pt-3 flex items-center justify-between">
-              <span className="text-sm font-semibold text-white">잔여</span>
+            <div className="border-t border-gray-200 pt-3 flex items-center justify-between">
+              <span className="text-sm font-semibold text-gray-900">잔여</span>
               <span
                 className={`text-sm font-bold ${
                   insufficient ? "text-red-600" : "text-green-600"
@@ -97,17 +97,17 @@ export default function CreditConfirmDialog({
         </div>
 
         {/* Divider + Buttons */}
-        <div className="border-t border-[#2a3a54] px-6 py-4 flex justify-end gap-3">
+        <div className="border-t border-gray-200 px-6 py-4 flex justify-end gap-3">
           <button
             onClick={onClose}
-            className="px-4 py-2 border border-[#2a3a54] text-gray-300 rounded-lg text-sm font-medium hover:bg-[#243350] transition-colors"
+            className="px-4 py-2 border border-gray-200 text-gray-600 rounded-full text-sm font-medium hover:bg-gray-50 transition-colors"
           >
             취소
           </button>
           <button
             onClick={onConfirm}
             disabled={insufficient || loading}
-            className="px-5 py-2 bg-[#c49a2e] text-[#0f1a2e] rounded-lg text-sm font-medium hover:bg-[#d4a843] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-5 py-2 bg-teal-500 text-white rounded-full text-sm font-medium hover:bg-teal-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? "처리 중..." : "진행"}
           </button>

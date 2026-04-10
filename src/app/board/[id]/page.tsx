@@ -92,7 +92,7 @@ export default function PostDetailPage() {
       <div className="p-6 max-w-3xl mx-auto">
         <div className="text-center py-16">
           <p className="text-gray-400 text-sm">게시글을 찾을 수 없습니다</p>
-          <Link href="/board" className="text-[#c49a2e] text-sm mt-2 inline-block hover:underline">목록으로</Link>
+          <Link href="/board" className="text-teal-500 text-sm mt-2 inline-block hover:underline">목록으로</Link>
         </div>
       </div>
     );
@@ -163,19 +163,19 @@ export default function PostDetailPage() {
                 onChange={(e) => setCommentText(e.target.value)}
                 onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); handleComment(); } }}
                 placeholder="댓글을 입력하세요..."
-                className="flex-1 px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#c49a2e]/30"
+                className="flex-1 px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-teal-400/30"
               />
               <button
                 onClick={handleComment}
                 disabled={submitting || !commentText.trim()}
-                className="px-4 py-2 bg-[#c49a2e] text-white rounded-lg text-sm font-medium hover:bg-[#b08a28] disabled:opacity-50 transition-colors shrink-0"
+                className="px-4 py-2 bg-teal-500 text-white rounded-lg text-sm font-medium hover:bg-teal-600 disabled:opacity-50 transition-colors shrink-0"
               >
                 {submitting ? "..." : "등록"}
               </button>
             </div>
           ) : (
             <p className="text-sm text-gray-400 text-center">
-              <Link href={`/login?redirect=/board/${id}`} className="text-[#c49a2e] hover:underline">로그인</Link> 후 댓글을 작성할 수 있습니다
+              <Link href={`/login?redirect=/board/${id}`} className="text-teal-500 hover:underline">로그인</Link> 후 댓글을 작성할 수 있습니다
             </p>
           )}
         </div>

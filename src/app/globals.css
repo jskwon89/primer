@@ -5,17 +5,17 @@
   --foreground: #111827;
   --card: #ffffff;
   --card-foreground: #111827;
-  --primary: #c49a2e;
+  --primary: #14b8a6;
   --primary-foreground: #ffffff;
   --secondary: #f9fafb;
   --secondary-foreground: #374151;
   --muted: #f3f4f6;
   --muted-foreground: #6b7280;
   --border: #e5e7eb;
-  --sidebar: #0f1a2e;
-  --sidebar-foreground: #c8d6e5;
-  --sidebar-hover: #1a2744;
-  --accent: #d4a843;
+  --sidebar: #f0fdfa;
+  --sidebar-foreground: #134e4a;
+  --sidebar-hover: #ccfbf1;
+  --accent: #0d9488;
 }
 
 @theme inline {

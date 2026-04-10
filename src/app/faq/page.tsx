@@ -108,8 +108,8 @@ export default function FaqPage() {
       </Link>
 
       <div className="flex items-center gap-3 mb-2">
-        <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center">
-          <svg className="w-5 h-5 text-[#c49a2e]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div className="w-10 h-10 rounded-xl bg-teal-50 flex items-center justify-center">
+          <svg className="w-5 h-5 text-teal-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
         </div>
@@ -127,7 +127,7 @@ export default function FaqPage() {
             onClick={() => { setActiveCategory(cat); setOpenId(null); }}
             className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
               activeCategory === cat
-                ? "bg-[#c49a2e] text-white"
+                ? "bg-teal-500 text-white"
                 : "bg-white border border-gray-200 text-gray-600 hover:bg-gray-50"
             }`}
           >
@@ -148,7 +148,7 @@ export default function FaqPage() {
                 className="w-full px-6 py-4 flex items-center justify-between text-left hover:bg-gray-50 transition-colors"
               >
                 <div className="flex items-center gap-3 min-w-0 flex-1">
-                  <span className="text-[#c49a2e] font-bold text-sm shrink-0">Q</span>
+                  <span className="text-teal-500 font-bold text-sm shrink-0">Q</span>
                   <span className="text-sm font-medium text-gray-900">{faq.q}</span>
                 </div>
                 <svg className={`w-5 h-5 text-gray-400 shrink-0 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -173,7 +173,7 @@ export default function FaqPage() {
         <p className="text-sm text-gray-600 mb-3">원하는 답변을 찾지 못하셨나요?</p>
         <Link
           href="/contact"
-          className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#c49a2e] text-white rounded-lg text-sm font-medium hover:bg-[#b08a28] transition-colors"
+          className="inline-flex items-center gap-2 px-5 py-2.5 bg-teal-500 text-white rounded-full text-sm font-medium hover:bg-teal-600 transition-colors"
         >
           문의하기
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

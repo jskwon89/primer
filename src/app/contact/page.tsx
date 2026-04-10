@@ -114,8 +114,8 @@ export default function ContactPage() {
       </Link>
 
       <div className="flex items-center gap-3 mb-6">
-        <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center">
-          <svg className="w-5 h-5 text-[#c49a2e]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div className="w-10 h-10 rounded-xl bg-teal-50 flex items-center justify-center">
+          <svg className="w-5 h-5 text-teal-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
           </svg>
         </div>
@@ -150,7 +150,7 @@ export default function ContactPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="답변 받을 이메일 주소"
-              className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#c49a2e]/40 focus:border-[#c49a2e]"
+              className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-teal-400/40 focus:border-teal-400"
             />
           </div>
           <div>
@@ -160,7 +160,7 @@ export default function ContactPage() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="이름 (선택)"
-              className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#c49a2e]/40 focus:border-[#c49a2e]"
+              className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-teal-400/40 focus:border-teal-400"
             />
           </div>
           <div>
@@ -168,7 +168,7 @@ export default function ContactPage() {
             <select
               value={category}
               onChange={(e) => setCategory(e.target.value)}
-              className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#c49a2e]/40 focus:border-[#c49a2e]"
+              className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-teal-400/40 focus:border-teal-400"
             >
               {categories.map((c) => (
                 <option key={c} value={c}>{c}</option>
@@ -184,7 +184,7 @@ export default function ContactPage() {
               value={subject}
               onChange={(e) => setSubject(e.target.value)}
               placeholder="문의 제목"
-              className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#c49a2e]/40 focus:border-[#c49a2e]"
+              className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-teal-400/40 focus:border-teal-400"
             />
           </div>
         </div>
@@ -195,14 +195,14 @@ export default function ContactPage() {
             onChange={(e) => setMessage(e.target.value)}
             rows={5}
             placeholder="문의하실 내용을 자세히 작성해주세요"
-            className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#c49a2e]/40 focus:border-[#c49a2e] resize-none"
+            className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-teal-400/40 focus:border-teal-400 resize-none"
           />
         </div>
         <div className="flex justify-end">
           <button
             onClick={handleSubmit}
             disabled={submitting || !email.trim() || !subject.trim()}
-            className="px-6 py-2.5 bg-[#c49a2e] text-white rounded-lg text-sm font-semibold hover:bg-[#b08a28] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-6 py-2.5 bg-teal-500 text-white rounded-lg text-sm font-semibold hover:bg-teal-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {submitting ? "제출 중..." : "문의하기"}
           </button>
@@ -273,7 +273,7 @@ export default function ContactPage() {
 
       {/* FAQ link */}
       <div className="mt-6 text-center">
-        <Link href="/faq" className="text-sm text-[#c49a2e] hover:underline">
+        <Link href="/faq" className="text-sm text-teal-500 hover:underline">
           자주 묻는 질문 확인하기 &rarr;
         </Link>
       </div>
