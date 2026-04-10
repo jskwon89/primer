@@ -193,7 +193,11 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
             {/* 커뮤니티 */}
             <SectionGroup color="bg-sky-400" label="커뮤니티" pathname={pathname} prefixes={["/board"]} defaultOpen>
               <NavLink href="/board" label="자유게시판" pathname={pathname} onClick={closeSidebar} />
-              <NavLink href="/board?category=Q%26A" label="Q & A" pathname={pathname} onClick={closeSidebar} />
+              <SubCategory label="질문과 답변" pathname={pathname} prefixes={["/board?category=통계", "/board?category=연구방법", "/board?category=논문작성"]}>
+                <NavLink href="/board?category=통계" label="통계" pathname={pathname} onClick={closeSidebar} />
+                <NavLink href="/board?category=연구방법" label="연구방법" pathname={pathname} onClick={closeSidebar} />
+                <NavLink href="/board?category=논문작성" label="논문작성" pathname={pathname} onClick={closeSidebar} />
+              </SubCategory>
             </SectionGroup>
 
             {/* 고객센터 */}

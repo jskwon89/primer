@@ -14,7 +14,7 @@ interface Post {
   view_count: number;
 }
 
-const categories = ["전체", "Q&A", "통계 질문", "연구방법", "데이터", "자유"];
+const categories = ["전체", "통계", "연구방법", "논문작성", "자유"];
 
 export default function BoardPage() {
   const { user } = useUser();

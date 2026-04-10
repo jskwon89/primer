@@ -144,74 +144,44 @@ export default function LandingPage() {
         </div>
       </section>}
 
-      {/* Value Proposition */}
-      {sections.value_proposition && <section className="py-12 sm:py-24 px-4 sm:px-6 bg-[#0f1a2e] text-white">
+      {/* PRIMER 특징 */}
+      <section className="py-12 sm:py-24 px-4 sm:px-6 bg-[#2c3e50] text-white">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-8 sm:mb-16">
-            <h2 className="text-2xl sm:text-4xl font-bold mb-3 sm:mb-4">왜 PRIMER인가요?</h2>
-            <p className="text-sm sm:text-lg text-white/60 max-w-2xl mx-auto leading-relaxed">
-              체계적인 연구 경험을 바탕으로 지원합니다
-            </p>
-            <div className="w-12 sm:w-16 h-1 bg-[#c49a2e] mx-auto rounded-full mt-4" />
+            <h2 className="text-2xl sm:text-4xl font-bold mb-3 sm:mb-4">PRIMER는 이렇게 도와드립니다</h2>
+            <div className="w-12 sm:w-16 h-1 bg-teal-400 mx-auto rounded-full mt-4" />
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8">
             <ValueCard
               icon={
-                <svg className="w-7 h-7 text-[#c49a2e]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                <svg className="w-7 h-7 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                 </svg>
               }
-              title="합리적인 가격"
-              description="불필요한 중간 과정 없이, 연구에 꼭 필요한 서비스를 합리적인 비용으로 제공합니다. 사전 견적 안내로 예산 걱정 없이 진행하세요."
+              title="연구 방향 설정"
+              description="연구 주제 선정부터 문헌 탐색, 연구 질문 구체화까지 함께 고민합니다."
             />
             <ValueCard
               icon={
-                <svg className="w-7 h-7 text-[#c49a2e]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                <svg className="w-7 h-7 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                 </svg>
               }
-              title="검증된 품질"
-              description="각 분야 전문가가 직접 분석하며, 모든 결과물에 대해 구체적인 해석과 설명을 함께 제공합니다. 숫자만 던지지 않습니다."
+              title="통계 방법 안내"
+              description="연구에 적합한 통계 방법과 도구를 추천하고, 분석 절차를 안내합니다."
             />
             <ValueCard
               icon={
-                <svg className="w-7 h-7 text-[#c49a2e]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                </svg>
-              }
-              title="수정/보완 보장"
-              description="결과물 납품 후에도 요청에 따라 수정과 보완을 진행합니다. 만족하실 때까지 끝까지 책임지겠습니다."
-            />
-            <ValueCard
-              icon={
-                <svg className="w-7 h-7 text-[#c49a2e]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-7 h-7 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                 </svg>
               }
               title="1:1 맞춤 소통"
-              description="의뢰 접수부터 완료까지 담당자와 메시지로 직접 소통할 수 있습니다. 궁금한 점은 언제든 물어보세요."
-            />
-            <ValueCard
-              icon={
-                <svg className="w-7 h-7 text-[#c49a2e]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                </svg>
-              }
-              title="데이터 보안"
-              description="업로드하신 모든 자료는 암호화 저장되며, 작업 완료 후 요청 시 즉시 삭제합니다. 연구 윤리를 최우선으로 합니다."
-            />
-            <ValueCard
-              icon={
-                <svg className="w-7 h-7 text-[#c49a2e]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-              }
-              title="빠른 처리"
-              description="체계적인 프로세스로 신속하게 결과를 제공합니다. 급한 일정도 상담을 통해 최대한 맞춰드립니다."
+              description="요청부터 완료까지 담당자와 직접 소통합니다. 궁금한 점은 언제든 물어보세요."
             />
           </div>
         </div>
-      </section>}
+      </section>
 
       {/* How it Works */}
       {sections.how_it_works && <section id="how-it-works" className="py-12 sm:py-24 px-4 sm:px-6 bg-gray-50">
@@ -223,9 +193,9 @@ export default function LandingPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-16 items-center">
             <div className="grid grid-cols-2 sm:grid-cols-2 gap-3 sm:gap-6">
               <StepCard step={1} title="회원가입" description="간편 가입 후 바로 시작" />
-              <StepCard step={2} title="서비스 선택" description="필요한 분석/코딩 서비스 선택" />
-              <StepCard step={3} title="자료 업로드" description="판결문, 설문지, 데이터 업로드" />
-              <StepCard step={4} title="결과 확인" description="분석 결과 및 최종의견 제시" />
+              <StepCard step={2} title="지원 요청" description="필요한 상담 서비스 선택" />
+              <StepCard step={3} title="자료 공유" description="연구 관련 자료 업로드" />
+              <StepCard step={4} title="의견 확인" description="최종의견 및 피드백 제시" />
             </div>
             <div className="relative h-48 sm:h-80 rounded-xl sm:rounded-2xl overflow-hidden shadow-lg">
               <Image
