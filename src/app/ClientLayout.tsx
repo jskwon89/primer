@@ -55,9 +55,8 @@ function NavDropdown({ group, pathname, onNavigate }: { group: MenuGroup; pathna
   }, []);
 
   return (
-    <div ref={ref} className="relative">
+    <div ref={ref} className="relative" onMouseEnter={() => setOpen(true)} onMouseLeave={() => setOpen(false)}>
       <button
-        onClick={() => setOpen(!open)}
         className={`flex items-center gap-1 px-4 py-2 rounded-full text-[13px] font-medium transition-colors ${
           hasActive ? "text-teal-600 bg-teal-50" : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
         }`}
@@ -68,7 +67,8 @@ function NavDropdown({ group, pathname, onNavigate }: { group: MenuGroup; pathna
         </svg>
       </button>
       {open && (
-        <div className="absolute top-full left-0 mt-1.5 w-44 bg-white rounded-xl shadow-lg border border-gray-100 py-1.5 z-50">
+        <div className="absolute top-full left-0 pt-1.5 w-44 z-50">
+        <div className="bg-white rounded-xl shadow-lg border border-gray-100 py-1.5">
           {group.items.map((item) => (
             <Link
               key={item.href}
@@ -83,6 +83,7 @@ function NavDropdown({ group, pathname, onNavigate }: { group: MenuGroup; pathna
               {item.label}
             </Link>
           ))}
+        </div>
         </div>
       )}
     </div>

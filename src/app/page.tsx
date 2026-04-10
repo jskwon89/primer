@@ -67,6 +67,9 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* 구분선 */}
+      <div className="max-w-6xl mx-auto px-5 sm:px-8"><hr className="border-gray-200" /></div>
+
       {/* Services — 가로형 카드 */}
       <section id="services" className="py-16 sm:py-28 px-5 sm:px-8">
         <div className="max-w-6xl mx-auto">
@@ -113,6 +116,8 @@ export default function LandingPage() {
         </div>
       </section>
 
+      <div className="max-w-6xl mx-auto px-5 sm:px-8"><hr className="border-gray-200" /></div>
+
       {/* 특징 — 큰 텍스트 인라인 */}
       <section className="py-16 sm:py-28 px-5 sm:px-8 bg-white">
         <div className="max-w-6xl mx-auto">
@@ -138,6 +143,8 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
+
+      <div className="max-w-6xl mx-auto px-5 sm:px-8"><hr className="border-gray-200" /></div>
 
       {/* How it Works — 타임라인 */}
       <section id="how-it-works" className="py-16 sm:py-28 px-5 sm:px-8 bg-[#faf9f6]">
@@ -168,6 +175,8 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
+
+      <div className="max-w-6xl mx-auto px-5 sm:px-8"><hr className="border-gray-200" /></div>
 
       {/* Contact */}
       <section id="contact" className="py-16 sm:py-28 px-5 sm:px-8 bg-white">
