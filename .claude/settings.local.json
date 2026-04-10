@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git -C /d/2026/Coder/ status)",
+      "Bash(gh repo:*)",
+      "Bash(gh api:*)",
+      "Bash(git clone:*)",
+      "Bash(git init:*)",
+      "Bash(git remote:*)",
+      "Bash(git fetch:*)",
+      "Bash(git checkout:*)",
+      "Bash(git:*)",
+      "Bash(npm run:*)",
+      "Bash(npm install:*)",
+      "Bash(npx next:*)",
+      "mcp__claude_ai_Vercel__list_teams",
+      "mcp__claude_ai_Vercel__list_projects",
+      "mcp__claude_ai_Vercel__list_deployments",
+      "Bash(ls:*)",
+      "Bash(npx tsc:*)"
+    ]
+  }
+}

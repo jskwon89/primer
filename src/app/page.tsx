@@ -1,0 +1,381 @@
+"use client";
+
+import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { siteConfig, services, advancedServices } from "@/lib/siteMode";
+
+export default function LandingPage() {
+  const [scrolled, setScrolled] = useState(false);
+  const [sections, setSections] = useState<Record<string, boolean>>({
+    services: true,
+    value_proposition: true,
+    how_it_works: true,
+    contact: true,
+  });
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 10);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    fetch("/api/site-settings")
+      .then((r) => r.json())
+      .then((d) => { if (d.settings) setSections(d.settings); })
+      .catch(() => {});
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-white text-gray-900">
+      {/* Navigation */}
+      <nav
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          scrolled ? "bg-white shadow-md" : "bg-transparent"
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between h-14 sm:h-16">
+          <Link href="/" className="flex items-center gap-2">
+            <span className={`text-lg sm:text-xl font-bold tracking-tight ${scrolled ? "text-gray-900" : "text-white"}`}>
+              {siteConfig.name}
+            </span>
+          </Link>
+          <div className={`hidden md:flex items-center gap-8 text-sm font-medium ${scrolled ? "text-gray-600" : "text-white/90"}`}>
+            <Link href="/dashboard" className="hover:opacity-70 transition-opacity">시작하기</Link>
+            <a href="#services" className="hover:opacity-70 transition-opacity">서비스</a>
+            <a href="#how-it-works" className="hover:opacity-70 transition-opacity">이용절차</a>
+            <Link href="/board" className="hover:opacity-70 transition-opacity">게시판</Link>
+            <a href="#contact" className="hover:opacity-70 transition-opacity">문의</a>
+          </div>
+          <div className="flex items-center gap-2 sm:gap-3">
+            <Link href="/login" className={`hidden sm:block text-sm font-medium px-4 py-2 rounded-lg transition-colors ${scrolled ? "text-gray-600 hover:bg-gray-100" : "text-white hover:bg-white/10"}`}>
+              로그인
+            </Link>
+            <Link
+              href="/dashboard"
+              className="text-xs sm:text-sm font-medium px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg transition-colors bg-[#c49a2e] text-white hover:bg-[#d4a843]"
+            >
+              시작하기
+            </Link>
+          </div>
+        </div>
+      </nav>
+
+      {/* Hero Section */}
+      <section className="relative h-screen flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0">
+          <Image
+            src="/images/hero.png"
+            alt="Hero background"
+            fill
+            className="object-cover"
+            priority
+          />
+          <div className="absolute inset-0 bg-black/60" />
+        </div>
+        <div className="relative z-10 text-center text-white px-5 sm:px-6 max-w-4xl mx-auto animate-fade-in">
+          <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold leading-tight mb-4 sm:mb-6 whitespace-pre-line">
+            {siteConfig.heroTitle}
+          </h1>
+          <p className="text-sm sm:text-lg md:text-xl text-white/80 mb-6 sm:mb-10 leading-relaxed whitespace-pre-line">
+            {siteConfig.heroDesc}
+          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
+            <Link
+              href="/dashboard"
+              className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-[#c49a2e] text-white rounded-xl text-sm sm:text-base font-semibold hover:bg-[#d4a843] transition-colors shadow-lg text-center"
+            >
+              {siteConfig.ctaText}
+            </Link>
+            <a
+              href="#services"
+              className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 border-2 border-white text-white rounded-xl text-sm sm:text-base font-semibold hover:bg-white/10 transition-colors text-center"
+            >
+              서비스 둘러보기
+            </a>
+          </div>
+        </div>
+        {/* Scroll indicator */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+          <svg className="w-6 h-6 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+          </svg>
+        </div>
+      </section>
+
+      {/* Services Section */}
+      {sections.services && <section id="services" className="py-12 sm:py-24 px-4 sm:px-6 bg-white">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-8 sm:mb-16">
+            <h2 className="text-2xl sm:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">제공 서비스</h2>
+            <div className="w-12 sm:w-16 h-1 bg-[#c49a2e] mx-auto rounded-full" />
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-8">
+            {services.map((svc) => (
+              <ServiceCard key={svc.key} image={svc.image} title={svc.title} description={svc.description} href={svc.href} />
+            ))}
+          </div>
+
+          {/* 고급 서비스 → ResearchOn 연동 안내 */}
+          {advancedServices.length > 0 && (
+            <div className="mt-8 sm:mt-12 bg-gradient-to-r from-[#0f1a2e] to-[#1a2744] rounded-2xl p-6 sm:p-8">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div>
+                  <h3 className="text-lg font-bold text-white mb-1">전문적인 자료 분석이나 고급분석이 필요하신가요?</h3>
+                  <p className="text-sm text-white/60">제휴 기관 <strong className="text-[#d4a843]">ResearchOn</strong>에서 전문적으로 수행합니다.</p>
+                  <div className="flex flex-wrap gap-2 mt-3">
+                    {advancedServices.map((svc) => (
+                      <span key={svc.key} className="px-2.5 py-1 bg-white/10 text-white/70 rounded-lg text-xs">{svc.title}</span>
+                    ))}
+                  </div>
+                </div>
+                <a
+                  href={siteConfig.partnerUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="shrink-0 px-6 py-3 bg-[#c49a2e] text-white rounded-xl text-sm font-semibold hover:bg-[#d4a843] transition-colors shadow-lg"
+                >
+                  ResearchOn 바로가기 &rarr;
+                </a>
+              </div>
+            </div>
+          )}
+        </div>
+      </section>}
+
+      {/* Value Proposition */}
+      {sections.value_proposition && <section className="py-12 sm:py-24 px-4 sm:px-6 bg-[#0f1a2e] text-white">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-8 sm:mb-16">
+            <h2 className="text-2xl sm:text-4xl font-bold mb-3 sm:mb-4">왜 PRIMER인가요?</h2>
+            <p className="text-sm sm:text-lg text-white/60 max-w-2xl mx-auto leading-relaxed">
+              체계적인 연구 경험을 바탕으로 지원합니다
+            </p>
+            <div className="w-12 sm:w-16 h-1 bg-[#c49a2e] mx-auto rounded-full mt-4" />
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8">
+            <ValueCard
+              icon={
+                <svg className="w-7 h-7 text-[#c49a2e]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              }
+              title="합리적인 가격"
+              description="불필요한 중간 과정 없이, 연구에 꼭 필요한 서비스를 합리적인 비용으로 제공합니다. 사전 견적 안내로 예산 걱정 없이 진행하세요."
+            />
+            <ValueCard
+              icon={
+                <svg className="w-7 h-7 text-[#c49a2e]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                </svg>
+              }
+              title="검증된 품질"
+              description="각 분야 전문가가 직접 분석하며, 모든 결과물에 대해 구체적인 해석과 설명을 함께 제공합니다. 숫자만 던지지 않습니다."
+            />
+            <ValueCard
+              icon={
+                <svg className="w-7 h-7 text-[#c49a2e]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg>
+              }
+              title="수정/보완 보장"
+              description="결과물 납품 후에도 요청에 따라 수정과 보완을 진행합니다. 만족하실 때까지 끝까지 책임지겠습니다."
+            />
+            <ValueCard
+              icon={
+                <svg className="w-7 h-7 text-[#c49a2e]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                </svg>
+              }
+              title="1:1 맞춤 소통"
+              description="의뢰 접수부터 완료까지 담당자와 메시지로 직접 소통할 수 있습니다. 궁금한 점은 언제든 물어보세요."
+            />
+            <ValueCard
+              icon={
+                <svg className="w-7 h-7 text-[#c49a2e]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                </svg>
+              }
+              title="데이터 보안"
+              description="업로드하신 모든 자료는 암호화 저장되며, 작업 완료 후 요청 시 즉시 삭제합니다. 연구 윤리를 최우선으로 합니다."
+            />
+            <ValueCard
+              icon={
+                <svg className="w-7 h-7 text-[#c49a2e]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+              }
+              title="빠른 처리"
+              description="체계적인 프로세스로 신속하게 결과를 제공합니다. 급한 일정도 상담을 통해 최대한 맞춰드립니다."
+            />
+          </div>
+        </div>
+      </section>}
+
+      {/* How it Works */}
+      {sections.how_it_works && <section id="how-it-works" className="py-12 sm:py-24 px-4 sm:px-6 bg-gray-50">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-8 sm:mb-16">
+            <h2 className="text-2xl sm:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">이용 절차</h2>
+            <div className="w-12 sm:w-16 h-1 bg-[#c49a2e] mx-auto rounded-full" />
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-16 items-center">
+            <div className="grid grid-cols-2 sm:grid-cols-2 gap-3 sm:gap-6">
+              <StepCard step={1} title="회원가입" description="간편 가입 후 바로 시작" />
+              <StepCard step={2} title="서비스 선택" description="필요한 분석/코딩 서비스 선택" />
+              <StepCard step={3} title="자료 업로드" description="판결문, 설문지, 데이터 업로드" />
+              <StepCard step={4} title="결과 확인" description="분석 결과 및 최종의견 제시" />
+            </div>
+            <div className="relative h-48 sm:h-80 rounded-xl sm:rounded-2xl overflow-hidden shadow-lg">
+              <Image
+                src="/images/dylan-gillis-KdeqA3aTnBY-unsplash.jpg"
+                alt="이용 절차"
+                fill
+                className="object-cover"
+              />
+            </div>
+          </div>
+        </div>
+      </section>}
+
+      {/* Contact / CTA Section */}
+      {sections.contact && <section id="contact" className="py-12 sm:py-24 px-4 sm:px-6 bg-[#0f1a2e] text-white">
+        <div className="max-w-3xl mx-auto text-center">
+          <h2 className="text-2xl sm:text-4xl font-bold mb-3 sm:mb-4">연구의 새로운 시작</h2>
+          <p className="text-sm sm:text-lg text-white/70 mb-6 sm:mb-10">
+            {siteConfig.name}과 함께 효율적인 연구를 시작하세요
+          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-8 max-w-md mx-auto">
+            <input
+              type="email"
+              placeholder="이메일 주소를 입력하세요"
+              className="w-full px-5 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/40 text-sm focus:outline-none focus:ring-2 focus:ring-white/30"
+            />
+            <button className="shrink-0 px-6 py-3 bg-[#c49a2e] text-white rounded-xl text-sm font-semibold hover:bg-[#d4a843] transition-colors">
+              문의하기
+            </button>
+          </div>
+          <div className="pt-4">
+            <Link
+              href="/dashboard"
+              className="inline-block px-10 py-4 bg-[#c49a2e] text-white rounded-xl text-base font-semibold hover:bg-[#d4a843] transition-colors shadow-lg"
+            >
+              {siteConfig.ctaText}
+            </Link>
+          </div>
+        </div>
+      </section>}
+
+      {/* Footer */}
+      <footer className="bg-[#111827] text-white/60 py-8 sm:py-12 px-4 sm:px-6">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-6">
+          <div>
+            <h3 className="text-lg font-bold text-white mb-1">{siteConfig.name}</h3>
+            <p className="text-sm">{siteConfig.subtitle}</p>
+          </div>
+          <div className="flex items-center gap-6 text-sm">
+            <a href="#services" className="hover:text-white transition-colors">서비스</a>
+            <span className="hover:text-white transition-colors cursor-pointer">이용약관</span>
+            <span className="hover:text-white transition-colors cursor-pointer">개인정보처리방침</span>
+          </div>
+          <p className="text-xs text-white/40">&copy; 2026 {siteConfig.name}. All rights reserved.</p>
+        </div>
+      </footer>
+
+      {/* CSS animations */}
+      <style jsx global>{`
+        html {
+          scroll-behavior: smooth;
+        }
+        @keyframes fade-in {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        .animate-fade-in {
+          animation: fade-in 0.8s ease-out;
+        }
+      `}</style>
+    </div>
+  );
+}
+
+function ServiceCard({
+  image,
+  title,
+  description,
+  href,
+}: {
+  image: string;
+  title: string;
+  description: string;
+  href: string;
+}) {
+  return (
+    <Link href={href} className="group bg-white rounded-lg sm:rounded-xl border border-gray-200 shadow-sm hover:shadow-xl transition-shadow overflow-hidden block">
+      <div className="relative h-32 sm:h-48 overflow-hidden">
+        <Image
+          src={image}
+          alt={title}
+          fill
+          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 33vw"
+          quality={90}
+          className="object-cover group-hover:scale-105 transition-transform duration-500"
+        />
+      </div>
+      <div className="p-3 sm:p-6">
+        <h3 className="text-sm sm:text-lg font-semibold text-gray-900 mb-1 sm:mb-2">{title}</h3>
+        <p className="text-[11px] sm:text-sm text-gray-500 leading-relaxed mb-2 sm:mb-4 line-clamp-2">{description}</p>
+        <span className="hidden sm:inline text-sm font-medium text-[#c49a2e] group-hover:underline">
+          자세히 보기 &rarr;
+        </span>
+      </div>
+    </Link>
+  );
+}
+
+function ValueCard({
+  icon,
+  title,
+  description,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+}) {
+  return (
+    <div className="bg-white/5 border border-white/10 rounded-xl p-5 sm:p-6 hover:bg-white/10 transition-colors">
+      <div className="w-12 h-12 rounded-lg bg-[#c49a2e]/15 flex items-center justify-center mb-4">
+        {icon}
+      </div>
+      <h3 className="text-base sm:text-lg font-semibold text-white mb-2">{title}</h3>
+      <p className="text-xs sm:text-sm text-white/60 leading-relaxed">{description}</p>
+    </div>
+  );
+}
+
+function StepCard({
+  step,
+  title,
+  description,
+}: {
+  step: number;
+  title: string;
+  description: string;
+}) {
+  return (
+    <div className="bg-white rounded-lg sm:rounded-xl p-4 sm:p-6 shadow-sm border border-gray-200 text-center flex flex-col items-center">
+      <div className="text-3xl sm:text-5xl font-extrabold text-[#c49a2e] mb-2 sm:mb-4 tracking-tight" style={{ fontFamily: "'Georgia', serif" }}>
+        {step}
+      </div>
+      <h3 className="text-sm sm:text-base font-semibold text-gray-900 mb-0.5 sm:mb-1">{title}</h3>
+      <p className="text-xs sm:text-sm text-gray-500">{description}</p>
+    </div>
+  );
+}
